@@ -86,6 +86,20 @@ function nextCharId(currentId) {
     return "char" + next;
 }
 
+
+//! TODO this prevCharFunction needs re-writing
+
+/*function prevCharId(currentId) {
+
+    
+    if(document.getElementById(currentId).previousElementSibling == null){
+        
+    }else if()
+    else{
+        return currentCharId(currentChar-1)
+    }
+*/
+
 function removeLine(line){
     
     let i = box.firstElementChild;
@@ -123,7 +137,7 @@ function changeChar(correct, space, key) {
 
 
 
-    ///! sort this thing out!!!!!!!
+    //! sort this thing out!!!!!!!
 
 
     
@@ -173,8 +187,8 @@ function changeChar(correct, space, key) {
         }
     }
 
-    addBgEl(currentCharId(currentChar));
-    rmBgEl(currentCharId(currentChar - 1));
+    addBgEl(document.getElementById(currentCharId(currentChar)));
+    rmBgEl(document.getElementById(currentCharId(currentChar - 1)));
     //underLineEl(currentCharId(currentChar));
     //removeUnderlineEl(currentCharId(currentChar-1));
 
@@ -198,12 +212,13 @@ function randomWord() {
     
 }
 
-function prevCharId() {
-    try {
-        return currentCharId(currentChar).previousElementSibling.id
-    } catch (error) {
-        return document.getElementById("char" + (currentChar - 1))
-    }
+
+
+    
+        
+    
+
+    
 
 
 
@@ -356,13 +371,9 @@ function rmBgEl(el) {
 
 function deleteChar() {
     changeBackColor = document.getElementById('char' + (currentChar - 1).toString());
-
+    debugger;
     let errorChar = false;
-    let keyToBeDeletedId = function() {
-
-        //return currentCharId(currentChar).previousElementSibling.id
-        return prevCharId();
-    }
+    
 
     try {
 
@@ -371,21 +382,21 @@ function deleteChar() {
         //(in the func above) an error will occur.
 
 
-        if (keyToBeDeletedId().slice(0, 5) == "chare") {
-
+        if (prevCharId().slice(0, 5) == "chare") {
+            
             errorChar = true;
         }
     } catch (e) {
         //doesn't need to output, this is not an error
     }
-    //console.log("errorChar:" + errorChar)
+    console.log("errorChar:" + errorChar)
 
 
 
     if (errorChar == false) {
         if (currentChar !== 1) {
-            rmBgEl(currentCharId(currentChar));
-            addBgEl(currentCharId(currentChar - 1));
+            rmBgEl(document.getElementById(currentCharId(currentChar)));
+            addBgEl(document.getElementById(currentCharId(currentChar - 1)));
         }
 
         //just for all the regular char and the actual ' '
@@ -400,8 +411,8 @@ function deleteChar() {
         //this is for all of the red char
 
         //console.log('error delete');
-
-        toDelete = document.getElementById(currentCharId(currentChar).previousElementSibling.id);
+        
+        toDelete = document.getElementById(document.getElementById(currentCharId(currentChar)).previousElementSibling.id);
         toDelete.parentElement.removeChild(toDelete);
 
 
@@ -419,7 +430,7 @@ function deleteChar() {
     if(currentChar == 1){
 
     }
-    else if (document.getElementById(keyToBeDeletedId().innerText == "&nbsp")) {
+    else if (document.getElementById(prevCharId()).innerText == "&nbsp") {
         currentWord--;
     }
 
