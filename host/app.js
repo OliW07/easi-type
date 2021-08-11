@@ -14,6 +14,10 @@ var typed = "this";
 var afterError = [];
 var char;
 var colorChangeId;
+var changeBackColor;
+var toDelete;
+var lineOffsetTops = [];
+var uniqueLineOffsetTops = [];
 
 
 
@@ -197,10 +201,23 @@ function currentCharId(num=currentChar) {
     return "char" + num.toString()
 }
 
-
 function curWordEl() {
     return document.getElementById('word' + currentWord);
 }
+
+function checkLine(id){
+    
+    if(offsetTopEl(id) == uniqueLineOffsetTops[0]){
+        return 1;
+    }else if(offsetTopEl(id) == uniqueLineOffsetTops[1]){
+        return 2;
+    }else if(offsetTopEl(id) == uniqueLineOffsetTops[2]){
+        return 3;
+    }else{
+        return 4;
+    }
+}
+
 
 function randomWord() {
     
@@ -210,21 +227,6 @@ function randomWord() {
     
     
 }
-
-
-
-    
-        
-    
-
-    
-
-
-
-
-
-var lineOffsetTops = [];
-var uniqueLineOffsetTops = [];
 
 function makeWord() {
     let word = randomWord();
@@ -263,19 +265,24 @@ function makeWord() {
 }
 
 
-function checkLine(id){
-    
-    if(offsetTopEl(id) == uniqueLineOffsetTops[0]){
-        return 1;
-    }else if(offsetTopEl(id) == uniqueLineOffsetTops[1]){
-        return 2;
-    }else if(offsetTopEl(id) == uniqueLineOffsetTops[2]){
-        return 3;
-    }else{
-        return 4;
-    }
-}
+function makeChar(char, errorChar = false) {
+    let chara = document.createElement("p")
+    chara.innerHTML = char
+    chara.className = "char"
 
+    
+    if (errorChar) {
+        chara.id = "chare" + idChareIterations.toString();
+        idChareIterations++;
+    } else {
+        chara.id = "char" + idCharIterations.toString();
+        idCharIterations++;
+    }
+
+    
+    
+    return chara;
+}
 function wordAtStartOfLine(line){
     for(let i = 0; i < box.children.length; i++){
         if(checkLine(box.children[i].id)==line){
@@ -283,7 +290,6 @@ function wordAtStartOfLine(line){
         }
     }
 }
-
 function wordAtEndOfLine(line){
    
     let num = box.children.length;
@@ -302,7 +308,6 @@ function wordAtEndOfLine(line){
         }
     }
 }
-
 function charAtEndOfLine(line){
     let num = box.children.length;
     let b = 1;
@@ -331,27 +336,6 @@ function charAtEndOfLine(line){
     }
 }
 
-function makeChar(char, errorChar = false) {
-    let chara = document.createElement("p")
-    chara.innerHTML = char
-    chara.className = "char"
-
-    
-    if (errorChar) {
-        chara.id = "chare" + idChareIterations.toString();
-        idChareIterations++;
-    } else {
-        chara.id = "char" + idCharIterations.toString();
-        idCharIterations++;
-    }
-
-    
-    
-    return chara;
-}
-
-var changeBackColor;
-var toDelete;
 
 function underLineEl(el) {
     el.style.textDecoration = "underline";
@@ -359,6 +343,8 @@ function underLineEl(el) {
 function removeUnderlineEl(el) {
     el.style.textDecoration = "none";
 }
+
+
 function addBgEl(el) {
     el.style.backgroundColor = "#1A3858";
 }
