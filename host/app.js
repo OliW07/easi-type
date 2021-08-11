@@ -3,11 +3,6 @@ var wordlist;
 var box = document.getElementById("box");
 var currentChar = 1;
 var currentWord = 1;
-
-
-
-
-
 var idCharIterations = 1;
 var idWordIterations = 1;
 var idChareIterations = 1;
@@ -17,6 +12,10 @@ var textUserTyped = "";
 var box_children = [document.getElementById("box").children];
 var typed = "this";
 var afterError = [];
+var char;
+var colorChangeId;
+
+
 
 function fetchList(){
     
@@ -68,12 +67,15 @@ function checkKey(key) {
         changeChar(false, space, key);
     }
 }
-var char;
-var colorChangeId;
 
-function nextCharId(currentId) {
-    if(document.getElementById(currentId).nextElementSibling == null){
-        next = parseInt(currentId.slice(4)) + 1;
+
+function nextCharId(currentId=currentCharId()) {
+    
+    if(document.getElementById(currentId).innerHTML == "nbsp;"){
+        //previous el because curr would be &nbpsn
+        
+        next = parseInt(document.getElementById(currentId).previousElementSibling.id.slice(4)) + 1;
+        console.log(next)
     }else if(document.getElementById(currentId).nextElementSibling.innerHTML == "&nbsp"){
         next = document.getElementById(currentId.nextElementSibling.id.slice(4));
     }else{
@@ -86,19 +88,21 @@ function nextCharId(currentId) {
     return "char" + next;
 }
 
-
-//! TODO this prevCharFunction needs re-writing
-
-/*function prevCharId(currentId) {
-
+function prevCharId() {
     
-    if(document.getElementById(currentId).previousElementSibling == null){
-        
-    }else if()
-    else{
-        return currentCharId(currentChar-1)
+    if(document.getElementById(currentCharId()).previousElementSibling === null){
+       
+        // for if its the first char and there is no previous element sibling
+       let prevId = "char" + (currentChar - 1)
+       
+       return prevId;
+    }else{
+        return document.getElementById(currentCharId()).previousElementSibling.id;
     }
-*/
+    
+
+}
+
 
 function removeLine(line){
     
@@ -135,15 +139,6 @@ function changeChar(correct, space, key) {
     currentLine = checkLine(currentCharId(currentChar));
     
 
-
-
-    ///! sort this thing out!!!!!!!
-
-
-    
-    if(checkLine(nextCharId(currentCharId(currentLine))) == 2){
-        removeLine(1);
-    }
 
     if (correct) {
         if (space) {
@@ -191,10 +186,14 @@ function changeChar(correct, space, key) {
     rmBgEl(document.getElementById(currentCharId(currentChar - 1)));
     //underLineEl(currentCharId(currentChar));
     //removeUnderlineEl(currentCharId(currentChar-1));
+   
+    if(checkLine(currentCharId(currentChar)) == 3){
+        removeLine(1);
+    }
 
 }
 
-function currentCharId(num) {
+function currentCharId(num=currentChar) {
     return "char" + num.toString()
 }
 
@@ -222,7 +221,7 @@ function randomWord() {
 
 
 
-}
+
 
 var lineOffsetTops = [];
 var uniqueLineOffsetTops = [];
@@ -243,7 +242,7 @@ function makeWord() {
 
     });
 
-    let space = makeChar("&nbsp")
+    let space = makeChar("&nbsp");
     text += " ";
     div.append(space);
 
@@ -288,14 +287,16 @@ function wordAtStartOfLine(line){
 function wordAtEndOfLine(line){
    
     let num = box.children.length;
-    for(let i = 1; i < num; i++){
+    let firstWord = box.firstElementChild.id.slice(4);
+    for(let i = firstWord; i < num; i++){
         let wordId = "word" + i;
         let wordEl = document.getElementById(wordId);
-        let line = checkLine(wordEl.id);
+        let lineCheck = checkLine(wordEl.id);
         let nextLine = checkLine(wordEl.nextElementSibling.id)
-        if(line == nextLine){
+        if(lineCheck == nextLine){
 
-        }else{
+        }else if(lineCheck == line){
+            
             return wordEl;
             
         }
@@ -331,9 +332,9 @@ function charAtEndOfLine(line){
 }
 
 function makeChar(char, errorChar = false) {
-    let chara = document.createElement("p");
-    chara.innerHTML = char;
-    chara.className = "char";
+    let chara = document.createElement("p")
+    chara.innerHTML = char
+    chara.className = "char"
 
     
     if (errorChar) {
@@ -345,11 +346,7 @@ function makeChar(char, errorChar = false) {
     }
 
     
-
-
-
-
-
+    
     return chara;
 }
 
@@ -371,7 +368,7 @@ function rmBgEl(el) {
 
 function deleteChar() {
     changeBackColor = document.getElementById('char' + (currentChar - 1).toString());
-    debugger;
+    
     let errorChar = false;
     
 
@@ -430,7 +427,8 @@ function deleteChar() {
     if(currentChar == 1){
 
     }
-    else if (document.getElementById(prevCharId()).innerText == "&nbsp") {
+    debugger;
+    if (document.getElementById(currentCharId()).innerHTML == "&nbsp;") {
         currentWord--;
     }
 
