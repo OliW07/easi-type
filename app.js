@@ -19,7 +19,18 @@ var toDelete;
 var lineOffsetTops = [];
 var uniqueLineOffsetTops = [];
 
+var aboutBtn = document.getElementById('aboutLink');
+var settingsBtn = document.getElementById('settingsLink');
+var contactBtn = document.getElementById('contactLink');
 
+var aboutPage = document.getElementById('aboutPage');
+var aboutPageX = document.getElementById('aboutPageX');
+
+var settingsPage = document.getElementById('settingsPage');
+var settingsPageX = document.getElementById('settingsPageX');
+
+var contactPage = document.getElementById('contactPage');
+var contactPageX = document.getElementById('contactPageX');
 
 function fetchList(){
     
@@ -346,10 +357,10 @@ function removeUnderlineEl(el) {
 
 
 function addBgEl(el) {
-    el.style.backgroundColor = "#1A3858";
+    el.style.backgroundColor = "#13283f";
 }
 function rmBgEl(el) {
-    el.style.backgroundColor = "#0D1B2A";
+    el.style.backgroundColor = "#09141f";
 }
 
 function deleteChar() {
@@ -419,6 +430,20 @@ function deleteChar() {
     }
 
 }
+var blurred = false;
+function blurEl(elNot){
+    blurred = true
+    console.log('blur')
+    
+    document.getElementById('container').style.opacity = 0.3;
+    document.getElementById('container').style.webkitFilter = "blur(4px)";
+    elNot.style.opacity = 1;
+}
+function unBlurEverything(){
+    blurred = false;
+   document.getElementById('container').style.opacity = 1;
+   document.getElementById('container').style.webkitFilter = "blur(0px)";
+}
 
 
 window.addEventListener("keydown", (e) => {
@@ -428,7 +453,57 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keypress", (e) => {
-
+    if(blurred){
+        return false;
+    }
     let key = String.fromCharCode(e.keyCode);
     checkKey(key);
 });
+aboutBtn.addEventListener('click',() => {
+   
+  
+    aboutPage.style.left = "0px";
+    
+    blurEl(aboutPage);
+});
+
+aboutPageX.addEventListener('click',() => {
+   
+    
+    aboutPage.style.left = "-50%";
+    unBlurEverything();
+    
+});
+
+
+settingsBtn.addEventListener('click',() => {
+   
+  
+    settingsPage.style.left = "0px";
+    
+    blurEl(settingsPage);
+});
+settingsPageX.addEventListener('click',() => {
+   
+    
+    settingsPage.style.left = "-50%";
+    unBlurEverything();
+    
+});
+
+contactBtn.addEventListener('click',() => {
+   
+  
+    contactPage.style.left = "0px";
+    
+    blurEl(contactPage);
+});
+contactPageX.addEventListener('click',() => {
+   
+    
+    contactPage.style.left = "-50%";
+    unBlurEverything();
+    
+});
+
+

@@ -1,0 +1,4 @@
+Main bg: #0d1b2a
+Default Txt: #415a77
+
+Char Correct: #778da9
