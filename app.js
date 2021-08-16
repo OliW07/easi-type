@@ -1,4 +1,5 @@
 
+
 var wordlist;
 var box = document.getElementById("box");
 var currentChar = 1;
