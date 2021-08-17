@@ -55,12 +55,14 @@ function setUp(){
     for (let i = 0; i <= 500; i++) {
         
         makeWord();
-        
+    
     
     }
     box_children.forEach((word) => {
         text += word.innerHTML;
     });
+    box.style.opacity = 1;
+    
 }
 
 function offsetTopEl(id){
@@ -68,7 +70,10 @@ function offsetTopEl(id){
     return el.offsetTop;
     
 }
-
+function flashWords(){
+    
+    box.style.opacity = 1;
+}
 
 
 function checkKey(key) {
@@ -431,6 +436,28 @@ function deleteChar() {
     }
 
 }
+
+
+function refreshWords(){
+    
+    box.style.opacity = 0;
+    while(true){
+        try{
+            box.firstElementChild.remove();
+        }catch(e){
+            textUserTyped = '';
+            textTyped = '';
+            text = '';
+            setUp();
+            
+            break;
+        }
+    }
+}
+
+
+
+
 var blurred = false;
 function blurEl(elNot){
     blurred = true
