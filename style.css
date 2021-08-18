@@ -30,7 +30,7 @@ nav{
     flex: 1;
     flex-direction: column;
     display: inline-flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     min-height: 8vh;
     
@@ -41,6 +41,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    
  
   }
   
@@ -61,23 +62,41 @@ ul {
 
 #box{
     
-    justify-content: center;
-    align-items: center;
+    
     margin-left: 40vh;
     margin-right: 40vh;
-    text-align: center;
+    justify-items: stretch;
    
     height: 250px;
     
     font-size: 32px;
     overflow-y: hidden;
     display: inline;
-    opacity: 0;
-    transition: all 0.25s ease-in;
+    
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
        
 }
-
-
+#refreshBox{
+  display:flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: all 0.25s ease-in;
+}
+#refreshDiv{
+  padding-bottom: 10px;
+  width:24px;
+  height:24px;
+  justify-content: center;
+  align-self:center;
+  background:url('assets/refresh.png');
+  background-repeat: no-repeat;
+}
+#refreshDiv:hover{
+  background:url('assets/refreshActive.png');
+  background-repeat: no-repeat;
+}
 
     
 

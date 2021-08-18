@@ -33,6 +33,9 @@ var settingsPageX = document.getElementById('settingsPageX');
 var contactPage = document.getElementById('contactPage');
 var contactPageX = document.getElementById('contactPageX');
 
+var refreshDiv = document.getElementById('refreshDiv');
+var refreshBox = document.getElementById('refreshBox');
+
 function fetchList(){
     
     return fetch('wordList.json')
@@ -46,6 +49,7 @@ async function waitForList(){
     
     if(x != undefined){
         setUp();
+        refreshBox.style.opacity = 1;
     }
 }
 
@@ -61,7 +65,7 @@ function setUp(){
     box_children.forEach((word) => {
         text += word.innerHTML;
     });
-    box.style.opacity = 1;
+    
     
 }
 
@@ -389,9 +393,7 @@ function deleteChar() {
     } catch (e) {
         //doesn't need to output, this is not an error
     }
-    console.log("errorChar:" + errorChar)
-
-
+    
 
     if (errorChar == false) {
         if (currentChar !== 1) {
@@ -410,7 +412,7 @@ function deleteChar() {
 
         //this is for all of the red char
 
-        //console.log('error delete');
+        
         
         toDelete = document.getElementById(document.getElementById(currentCharId(currentChar)).previousElementSibling.id);
         toDelete.parentElement.removeChild(toDelete);
@@ -425,13 +427,10 @@ function deleteChar() {
 
 
     textUserTyped = textUserTyped.slice(0, (textUserTyped.length) - 1);
+    
+    
 
-
-    if(currentChar == 1){
-
-    }
-    debugger;
-    if (document.getElementById(currentCharId()).innerHTML == "&nbsp;") {
+    if (document.getElementById(currentCharId()).innerHTML == "&nbsp;" && errorChar == false) {
         currentWord--;
     }
 
@@ -439,8 +438,13 @@ function deleteChar() {
 
 
 function refreshWords(){
-    
-    box.style.opacity = 0;
+    idCharIterations = 1;
+    idWordIterations = 1;
+    currentChar = 1;
+    currentWord = 1;
+    char = 1;
+    refreshBox.style.display = 'none'; 
+    refreshBox.style.opacity = 0;
     while(true){
         try{
             box.firstElementChild.remove();
@@ -448,8 +452,15 @@ function refreshWords(){
             textUserTyped = '';
             textTyped = '';
             text = '';
-            setUp();
             
+            setUp();
+            refreshBox.style.display = 'flex'; 
+            
+            setTimeout(
+                function(){ 
+                    refreshBox.style.opacity = 1; 
+                }, 50);
+
             break;
         }
     }
@@ -527,11 +538,13 @@ contactBtn.addEventListener('click',() => {
     blurEl(contactPage);
 });
 contactPageX.addEventListener('click',() => {
-   
     
     contactPage.style.left = "-50%";
     unBlurEverything();
     
+});
+refreshDiv.addEventListener('click',() => {
+    refreshWords();
 });
 
 
