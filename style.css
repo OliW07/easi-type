@@ -92,6 +92,7 @@ ul {
   align-self:center;
   background:url('assets/refresh.png');
   background-repeat: no-repeat;
+  
 }
 #refreshDiv:hover{
   background:url('assets/refreshActive.png');

@@ -17,8 +17,9 @@ var char;
 var colorChangeId;
 var changeBackColor;
 var toDelete;
-var lineOffsetTops = [];
-var uniqueLineOffsetTops = [];
+
+var uniqueLineOffsetTops = [1,1,1];
+var lineOffsetTops= [];
 
 var aboutBtn = document.getElementById('aboutLink');
 var settingsBtn = document.getElementById('settingsLink');
@@ -212,6 +213,8 @@ function changeChar(correct, space, key) {
     //underLineEl(currentCharId(currentChar));
     //removeUnderlineEl(currentCharId(currentChar-1));
    
+   console.log(currentCharId(currentChar))
+
     if(checkLine(currentCharId(currentChar)) == 3){
         removeLine(1);
     }
@@ -227,7 +230,23 @@ function curWordEl() {
 }
 
 function checkLine(id){
+    let count = 0;
+    while(uniqueLineOffsetTops.length != 4){
+        
+        checkMe = box.children[count];
+        let offsetTopNum = offsetTopEl(checkMe.id);
+
+        
+        lineOffsetTops.push(offsetTopNum);  
+        uniqueLineOffsetTops = new Set(lineOffsetTops);
+        uniqueLineOffsetTops = [...uniqueLineOffsetTops];
+        //console.log(uniqueLineOffsetTops);
+        count++;
+    }
     
+
+
+   
     if(offsetTopEl(id) == uniqueLineOffsetTops[0]){
         return 1;
     }else if(offsetTopEl(id) == uniqueLineOffsetTops[1]){
@@ -273,15 +292,11 @@ function makeWord() {
     div.className = "word";
     box.append(div);
     idWordIterations++;
-
-    let offsetTopAttr = offsetTopEl(div.id);
     
-    lineOffsetTops.push(offsetTopAttr);
-    uniqueLineOffsetTops = [...new Set(lineOffsetTops)];
-    uniqueLineOffsetTops = uniqueLineOffsetTops.slice(0,4);
+ 
     
     
-
+    
 
 }
 
