@@ -1,5 +1,6 @@
-
-
+var gameDisabled = false;
+var typedNum = 0;
+var errorTotal = 0;
 var wordlist;
 var box = document.getElementById("box");
 var currentChar = 1;
@@ -37,6 +38,15 @@ var contactPageX = document.getElementById('contactPageX');
 var refreshDiv = document.getElementById('refreshDiv');
 var refreshBox = document.getElementById('refreshBox');
 
+var time = 5;
+var timeLeft = 5;
+var timer = document.getElementById('timerNum');
+
+var victoryPage = document.getElementById('victoryPage');
+var victoryPageX = document.getElementById('victoryPageX');
+var wpmDisplay = document.getElementById('wpm');
+var accuracy = document.getElementById('accuracy');
+
 function fetchList(){
     
     return fetch('wordList.json')
@@ -57,6 +67,8 @@ async function waitForList(){
 waitForList();
 
 function setUp(){
+    gameDisabled = false;
+    container.style.display = 'inline-flex';
     for (let i = 0; i <= 500; i++) {
         
         makeWord();
@@ -163,7 +175,7 @@ function changeChar(correct, space, key) {
     colorChangeId = "char" + currentChar.toString();
     char = document.getElementById(colorChangeId);
     currentLine = checkLine(currentCharId(currentChar));
-    
+    typedNum++;
 
 
     if (correct) {
@@ -179,7 +191,7 @@ function changeChar(correct, space, key) {
         char.style.color = "#778da9";
         currentChar++;
     } else {
-
+        errorTotal++;
 
         if (space) {
             afterError.push(currentChar);
@@ -210,10 +222,7 @@ function changeChar(correct, space, key) {
 
     addBgEl(document.getElementById(currentCharId(currentChar)));
     rmBgEl(document.getElementById(currentCharId(currentChar - 1)));
-    //underLineEl(currentCharId(currentChar));
-    //removeUnderlineEl(currentCharId(currentChar-1));
    
-   console.log(currentCharId(currentChar))
 
     if(checkLine(currentCharId(currentChar)) == 3){
         removeLine(1);
@@ -392,7 +401,9 @@ function deleteChar() {
     changeBackColor = document.getElementById('char' + (currentChar - 1).toString());
     
     let errorChar = false;
-    
+    if(currentChar != 1){
+        typedNum--;
+    }
 
     try {
 
@@ -451,15 +462,22 @@ function deleteChar() {
 
 }
 
-
+function resetTest(){
+    clearInterval(intervalVar);
+    timer.innerHTML = 30;
+    timerStarted = false;
+    time = 5;
+    timeLeft = 5;
+    refreshWords();
+}
 function refreshWords(){
     idCharIterations = 1;
     idWordIterations = 1;
     currentChar = 1;
     currentWord = 1;
     char = 1;
-    refreshBox.style.display = 'none'; 
-    refreshBox.style.opacity = 0;
+    container.style.display = 'none'; 
+    container.style.opacity = 0;
     while(true){
         try{
             box.firstElementChild.remove();
@@ -469,18 +487,17 @@ function refreshWords(){
             text = '';
             
             setUp();
-            refreshBox.style.display = 'flex'; 
+            container.style.display = 'flex'; 
             
             setTimeout(
                 function(){ 
-                    refreshBox.style.opacity = 1; 
+                    container.style.opacity = 1; 
                 }, 50);
 
             break;
         }
     }
 }
-
 
 
 
@@ -491,12 +508,65 @@ function blurEl(elNot){
     
     document.getElementById('container').style.opacity = 0.3;
     document.getElementById('container').style.webkitFilter = "blur(4px)";
-    elNot.style.opacity = 1;
+    try{
+        elNot.style.opacity = 1;
+    }catch(e){}
+    
 }
 function unBlurEverything(){
     blurred = false;
    document.getElementById('container').style.opacity = 1;
    document.getElementById('container').style.webkitFilter = "blur(0px)";
+}
+
+var intervalVar; 
+var timerStarted =false;
+
+function startTimer(sec){
+    if(timeLeft == 0){
+        
+    }else{
+        timerStarted = true;
+        timerNum.innerHTML = sec;
+        intervalVar = setInterval(subSec,1000);
+    }
+    
+  
+}
+function subSec(){
+    if(timeLeft == 1){
+        clearInterval(intervalVar);
+        disableGame();
+        endScreen();
+        timerStarted = false;
+    }else{
+        timerNum.innerHTML = timerNum.innerHTML-1;
+        timeLeft--;
+    }
+    
+}
+
+function disableGame(){
+    gameDisabled = true;
+    container.style.display = "none";
+}
+function endScreen(){
+    let wpm = Math.round((typedNum-errorTotal)/5/(time/60));
+    let accuracyCalc = Math.round((typedNum-errorTotal)/typedNum*100);
+
+
+    container.style.display = 'none';
+    victoryPage.style.display = "flex";
+    victoryPage.style.opacity = 0;
+    
+    wpmDisplay.innerHTML = wpm;
+    accuracy.innerHTML = accuracyCalc + "%";
+    
+    setTimeout(
+        () => { 
+            victoryPage.style.opacity = 1; 
+        }, 50);
+    
 }
 
 
@@ -507,11 +577,13 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keypress", (e) => {
-    if(blurred){
+    if(blurred || gameDisabled){
         return false;
     }
     let key = String.fromCharCode(e.keyCode);
     checkKey(key);
+    if(!timerStarted)startTimer(time);
+    
 });
 aboutBtn.addEventListener('click',() => {
    
@@ -559,7 +631,16 @@ contactPageX.addEventListener('click',() => {
     
 });
 refreshDiv.addEventListener('click',() => {
-    refreshWords();
+    resetTest();
+    
 });
 
-
+victoryPageX.addEventListener('click',() => {
+    
+    resetTest();
+    
+    container.style.display = 'inline-flex';
+    victoryPage.style.display = 'none';
+    
+    
+});
