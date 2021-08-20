@@ -2,7 +2,7 @@
 <!--github-->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,11 @@
         <title>Document</title>
 </head>
 <body>
+    <div id="logo">
+        <img id="pro" src="assets/pro.png">
+        <img id="type" src="assets/type.png">
+    </div>
+   
     <div id="aboutPage" class="pageStyles">
         <div id="aboutPageX" class="pageX">X</div>
         <div class="containerPage">
@@ -75,7 +80,12 @@
         <div id="refreshBox">
             <div id="refreshDiv"></div>
             <div id='box'></div>
-            <div id="timer"><div id="timerNum">30</div></div>
+            <div id ="timerAndSlider">
+                <div id="timer"><div id="timerNum">30</div></div>
+                <input type="range" min="1" max="120" value="30" class="slider" id="timerSlider" oninput="timer.innerHTML=timerSlider.value">
+            </div>
+
+            
         </div>
         
         

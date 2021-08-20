@@ -19,6 +19,8 @@ var colorChangeId;
 var changeBackColor;
 var toDelete;
 
+var exPage = false;
+
 var uniqueLineOffsetTops = [1,1,1];
 var lineOffsetTops= [];
 
@@ -38,9 +40,11 @@ var contactPageX = document.getElementById('contactPageX');
 var refreshDiv = document.getElementById('refreshDiv');
 var refreshBox = document.getElementById('refreshBox');
 
-var time = 5;
-var timeLeft = 5;
+var time = 30;
+var timeLeft = 30;
 var timer = document.getElementById('timerNum');
+
+var slider = document.getElementById('timerSlider');
 
 var victoryPage = document.getElementById('victoryPage');
 var victoryPageX = document.getElementById('victoryPageX');
@@ -194,21 +198,21 @@ function changeChar(correct, space, key) {
         errorTotal++;
 
         if (space) {
-            afterError.push(currentChar);
+            if(currentCharId() == charAtEndOfLine().id){
+
+            }else{
+                afterError.push(currentChar);
             
-            let chare = makeChar(key, true);
-
-
-
-
-
-            text += key;
-            textUserTyped += key;
-            textTyped += key;
-            curWordEl().insertAdjacentElement("beforeend", chare);
-            curWordEl().insertBefore(chare, chare.previousElementSibling);
-            chare.style.color = "#9e2a2b";
-
+                let chare = makeChar(key, true);
+        
+                text += key;
+                textUserTyped += key;
+                textTyped += key;
+                curWordEl().insertAdjacentElement("beforeend", chare);
+                curWordEl().insertBefore(chare, chare.previousElementSibling);
+                chare.style.color = "#9e2a2b";
+            }
+            
 
 
         } else {
@@ -353,32 +357,8 @@ function wordAtEndOfLine(line){
         }
     }
 }
-function charAtEndOfLine(line){
-    let num = box.children.length;
-    let b = 1;
-    for(let i = 1; i < num; i++){
-        
-        let char = box.children[i-1].children.length;
-        
-        for(let a = 1; a <= char; a++){
-            b++;
-            
-            let charId = "char" + b;
-            let charEl = document.getElementById(charId);
-            let lineOfEl = checkLine(charEl.id);
-            
-            let nextEl = document.getElementById(nextCharId(charEl.id));
-           
-            let lineOfNextEl = checkLine(nextEl.id);
-           
-            if(lineOfEl == lineOfNextEl){
-                
-            }else{
-                return charEl.id;
-                
-            }
-        }
-    }
+function charAtEndOfLine(line=checkLine((curWordEl(currentWord).id))){
+    return wordAtEndOfLine(line).lastChild;
 }
 
 
@@ -463,14 +443,17 @@ function deleteChar() {
 }
 
 function resetTest(){
+
     clearInterval(intervalVar);
-    timer.innerHTML = 30;
+    timer.innerHTML = time;
     timerStarted = false;
-    time = 5;
-    timeLeft = 5;
+    timeLeft = time;
     refreshWords();
 }
 function refreshWords(){
+
+    typedNum = 0;
+    errorTotal = 0;
     idCharIterations = 1;
     idWordIterations = 1;
     currentChar = 1;
@@ -504,8 +487,9 @@ function refreshWords(){
 var blurred = false;
 function blurEl(elNot){
     blurred = true
-    console.log('blur')
     
+    document.getElementById('logo').style.opacity = 0.2;
+    document.getElementById('logo').style.webkitFilter = "blur(6px)";
     document.getElementById('container').style.opacity = 0.3;
     document.getElementById('container').style.webkitFilter = "blur(4px)";
     try{
@@ -517,6 +501,8 @@ function unBlurEverything(){
     blurred = false;
    document.getElementById('container').style.opacity = 1;
    document.getElementById('container').style.webkitFilter = "blur(0px)";
+   document.getElementById('logo').style.opacity = 1;
+    document.getElementById('logo').style.webkitFilter = "blur(0px)";
 }
 
 var intervalVar; 
@@ -551,16 +537,30 @@ function disableGame(){
     container.style.display = "none";
 }
 function endScreen(){
-    let wpm = Math.round((typedNum-errorTotal)/5/(time/60));
-    let accuracyCalc = Math.round((typedNum-errorTotal)/typedNum*100);
+    let wpm = () =>{
+        if(typedNum-errorTotal >= 1){
+            return Math.round((typedNum-errorTotal)/5/(time/60));
+        }
+        return 0;
+        
+    }
+    let accuracyCalc = () => {
+        
+        if(typedNum-errorTotal >= 1){
+            return Math.round((typedNum-errorTotal)/typedNum*100);
+        }else{
+            return 0;
+        }
+        
+    } 
 
 
     container.style.display = 'none';
     victoryPage.style.display = "flex";
     victoryPage.style.opacity = 0;
     
-    wpmDisplay.innerHTML = wpm;
-    accuracy.innerHTML = accuracyCalc + "%";
+    wpmDisplay.innerHTML = wpm();
+    accuracy.innerHTML = accuracyCalc() + "%";
     
     setTimeout(
         () => { 
@@ -570,6 +570,23 @@ function endScreen(){
 }
 
 
+function toggleSlider(){
+    if(!timerStarted){
+        if (window.getComputedStyle(slider, null).display == 'none') {
+            slider.style.display = "block";
+        } else {
+            slider.style.display = "none";
+        }
+    }
+}
+function updateTime(){
+    time = slider.value;
+    timeLeft = time;
+    timerNum.innerHTML = timeLeft;
+}
+
+
+
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 8) {
         deleteChar();
@@ -577,25 +594,30 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keypress", (e) => {
-    if(blurred || gameDisabled){
+    if(blurred || gameDisabled || sliderBool){
         return false;
     }
+    slider.style.display = "none";
+    sliderBool = false;
     let key = String.fromCharCode(e.keyCode);
     checkKey(key);
     if(!timerStarted)startTimer(time);
     
 });
 aboutBtn.addEventListener('click',() => {
-   
-  
+   if(timerStarted){
+       return false;
+   }
+    exPage = true;
     aboutPage.style.left = "0px";
-    
+    sliderBool = false;
+    slider.style.display = "none";
     blurEl(aboutPage);
 });
 
 aboutPageX.addEventListener('click',() => {
    
-    
+    exPage = false;
     aboutPage.style.left = "-50%";
     unBlurEverything();
     
@@ -603,31 +625,38 @@ aboutPageX.addEventListener('click',() => {
 
 
 settingsBtn.addEventListener('click',() => {
-   
-  
+    if(timerStarted){
+        return false;
+    }
+    exPage = true;
     settingsPage.style.left = "0px";
-    
+    sliderBool = false;
+    slider.style.display = "none";
     blurEl(settingsPage);
 });
 settingsPageX.addEventListener('click',() => {
    
-    
+    exPage = false;
     settingsPage.style.left = "-50%";
     unBlurEverything();
     
 });
 
 contactBtn.addEventListener('click',() => {
-   
-  
+    if(timerStarted){
+        return false;
+    }
+    exPage = true;
     contactPage.style.left = "0px";
-    
+    sliderBool = false;
+    slider.style.display = "none";
     blurEl(contactPage);
 });
 contactPageX.addEventListener('click',() => {
-    
+    exPage = false;
     contactPage.style.left = "-50%";
     unBlurEverything();
+    
     
 });
 refreshDiv.addEventListener('click',() => {
@@ -643,4 +672,34 @@ victoryPageX.addEventListener('click',() => {
     victoryPage.style.display = 'none';
     
     
+});
+timer.addEventListener('click',() => {
+    if(exPage){
+        return false;
+    }
+    toggleSlider();
+
+});
+
+timerAndSlider.onselectstart = function() { return false; };
+
+box.onselectstart = function() { return false; };
+document.body.onselectstart = function() { return false; };
+
+var sliderBool = false;
+
+slider.addEventListener('mouseup', () => {
+    sliderBool = false;
+    console.log('up')
+    slider.style.display = "none";
+    updateTime();
+});
+slider.addEventListener('mousedown', () => {
+    
+    sliderBool = true;
+});
+timerAndSlider.addEventListener('mouseleave', () => {
+    
+    sliderBool = false;
+    slider.style.display = "none";
 });

@@ -3,7 +3,7 @@ body{
     
     display: flex;
     align-items: center;
-    
+    flex-direction: column;
     background-color: #09141f;
     color: #364a5f;
     position: relative;
@@ -15,25 +15,26 @@ html{
 }
 #container{
     display:inline-flex;
-    
-    
+    flex:1;
+    width:fit-content;
     align-items: stretch;
     height:fit-content;
    
     top: 0px;
     z-index: 0;
     vertical-align: middle;
+    align-self: center;
     
 }
 
 nav{
     z-index:1;
-    flex: 1;
+    
     flex-direction: column;
     display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 8vh;
+    align-self:baseline;
+    
+    height:fit-content;
     
     font-family: 'Poppins', sans-serif;
 }
@@ -76,7 +77,9 @@ ul {
     
     display: flex;
     flex-flow: row wrap;
+    flex-wrap: wrap;
     justify-content: space-around;
+    max-width: 100%;
        
 }
 #refreshBox{
@@ -106,23 +109,36 @@ ul {
   height:30px;
   justify-content: center;
   align-self:center;
+  
   background-color: #778da9;
   border-radius: 50%;
   padding:6px;
   text-align: center;
+  cursor: pointer;
 }
 #timerNum{
   align-self: center;
   
   vertical-align: middle;
   line-height: 50%;
-  
-  
-  
-  
-  
 }
-    
+#timerAndSlider{
+  
+  justify-content: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  width:fit-content;
+  
+
+
+} 
+.slider{
+  width: fit-content;
+  align-self:center;
+  display:none;
+  position: relative;
+}  
 
 
 p{
@@ -131,6 +147,7 @@ p{
 }
 .word{
     display: inline-flex;
+    
 }
 img{
     height:24px;
@@ -215,4 +232,25 @@ img{
   
 }
 
-
+#pro{
+  transform: rotate(350deg);
+  display:flex;
+  
+  width:fit-content;
+  height:fit-content;
+}
+#type{
+  transform: rotate(10deg);
+  display:flex;
+  width:fit-content;
+  height:fit-content;
+  
+}
+#logo{
+  opacity:0.7;
+  margin:5%;
+  width:fit-content;
+  justify-content: center;
+  display:flex;
+  flex-direction: row;
+}
