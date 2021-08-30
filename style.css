@@ -9,36 +9,46 @@ body{
     position: relative;
     margin:0px;
     height:100%;
+    
 }
 html{
   height:100%;
 }
 #container{
+  margin-top:15%;
     display:inline-flex;
-    flex:1;
     width:fit-content;
     align-items: stretch;
-    height:fit-content;
-   
+    height:auto;
+    
+    
     top: 0px;
     z-index: 0;
     vertical-align: middle;
     align-self: center;
+    max-height: fit-content;
+    
     
 }
 
 nav{
+    width:100%;
     z-index:1;
-    
+    position:initial;
     flex-direction: column;
-    display: inline-flex;
-    align-self:baseline;
-    
-    height:fit-content;
+    display: flex;
+   
+    justify-content: center;
     
     font-family: 'Poppins', sans-serif;
+    
+    
 }
-ul {
+.navDivs{
+  width:100%;
+}
+ul{
+    width:100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -53,7 +63,7 @@ ul {
     display: block;
     color: #778da9;
     text-align: center;
-    padding: 14px 16px;
+    padding: 16px;
     text-decoration: none;
   }
   
@@ -64,9 +74,8 @@ ul {
 
 #box{
     
+    position:relative;
     
-    margin-left: 40vh;
-    margin-right: 40vh;
     justify-items: stretch;
    
     height: 250px;
@@ -78,15 +87,22 @@ ul {
     display: flex;
     flex-flow: row wrap;
     flex-wrap: wrap;
-    justify-content: space-around;
-    max-width: 100%;
+    justify-content: space-evenly;
+
        
+    align-self: center;
+    margin-right: 280px;
+    margin-left: 240px;
+
 }
 #refreshBox{
   display:flex;
   flex-direction: column;
   opacity: 0;
   transition: all 0.25s ease-in;
+  height: max-content;
+  overflow: auto;
+  align-items: center;
 }
 #refreshDiv{
   padding-bottom: 10px;
@@ -105,8 +121,8 @@ ul {
 #timer{
   display:flex;
   margin-top: 10px;
-  width:30px;
-  height:30px;
+  width:24px;
+  height:24px;
   justify-content: center;
   align-self:center;
   
@@ -133,11 +149,16 @@ ul {
 
 
 } 
+#boxNav{
+  display: flex;
+  flex-direction: row;
+}
 .slider{
+  top: 110%;
   width: fit-content;
   align-self:center;
   display:none;
-  position: relative;
+  
 }  
 
 
@@ -254,3 +275,5 @@ img{
   display:flex;
   flex-direction: row;
 }
+
+

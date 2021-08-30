@@ -10,13 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     
     
-        <title>Document</title>
+        <title>Typing test</title>
 </head>
 <body>
-    <div id="logo">
-        <img id="pro" src="assets/pro.png">
-        <img id="type" src="assets/type.png">
-    </div>
+   
    
     <div id="aboutPage" class="pageStyles">
         <div id="aboutPageX" class="pageX">X</div>
@@ -36,6 +33,16 @@
         <div id="settingsPageX" class="pageX">X</div>
         <div class="containerPage">
             <h2 class="pageTxtTitle">Settings</h2>
+            <div>
+                <p id="darkThemeP">Light theme:</p>
+                <input type="checkbox"  class="settingsCheckBox" id="settingsCheckBox1" unchecked>
+            </div>
+            <div>
+                <p id="deleteHighScore">Delete highscore:</p>
+                <input type="button"  value="Delete" class="settingsButton" id="deleteHighScoreBtn">
+            </div>
+            
+            
         </div>    
      
     </div>
@@ -52,34 +59,42 @@
         <h1 id="accuracyHead">Accuracy<div id="accuracy"></div></h1>
     </div>
     <div id="container">
-        <nav>
-            
-            <ul class="nav-links">
-                
-                <div>
-                    <li id="contactLink"> <img src="assets/contact.png"> </li>
-                </div>
-                <div>
-                    <li id="settingsLink"> <img src="assets/settings.png"></li>
-                </div>
-                <div>
-                    <li id="aboutLink">  <img src="assets/person.png"></li>
-                </div>
-                
-              
-            </ul>
-            <div class="burger">
-               
-                <div class="line1"></div>
-                <div class="line1"></div>
-                <div class="line1"></div>
-            </div>
+       
                 
         </nav>
         
         <div id="refreshBox">
+            
             <div id="refreshDiv"></div>
-            <div id='box'></div>
+
+            <div id="boxNav">
+                <nav>
+            
+                    <ul class="nav-links">
+                        
+                        <div class="navDivs">
+                            <li id="contactLink"> <img src="assets/contact.png"> </li>
+                        </div>
+                        <div class="navDivs">
+                            <li id="settingsLink"> <img src="assets/settings.png"></li>
+                        </div>
+                        <div class="navDivs">
+                            <li id="aboutLink">  <img src="assets/person.png"></li>
+                        </div>
+                        
+                      
+                    </ul>
+                    <div class="burger">
+                       
+                        <div class="line1"></div>
+                        <div class="line1"></div>
+                        <div class="line1"></div>
+                    </div>
+                </nav>
+                
+                <div id='box'></div>
+            </div>
+            
             <div id ="timerAndSlider">
                 <div id="timer"><div id="timerNum">30</div></div>
                 <input type="range" min="1" max="120" value="30" class="slider" id="timerSlider" oninput="timer.innerHTML=timerSlider.value">
@@ -87,7 +102,6 @@
 
             
         </div>
-        
         
     </div>
     

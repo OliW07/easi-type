@@ -24,6 +24,9 @@ var exPage = false;
 var uniqueLineOffsetTops = [1,1,1];
 var lineOffsetTops= [];
 
+//var allScores = localStorage.allScores;
+//localStorage.setItem("names", JSON.stringify(names));
+
 var aboutBtn = document.getElementById('aboutLink');
 var settingsBtn = document.getElementById('settingsLink');
 var contactBtn = document.getElementById('contactLink');
@@ -40,6 +43,8 @@ var contactPageX = document.getElementById('contactPageX');
 var refreshDiv = document.getElementById('refreshDiv');
 var refreshBox = document.getElementById('refreshBox');
 
+var deleteHighScoreBtn = document.getElementById('deleteHighScoreBtn');
+
 var time = 30;
 var timeLeft = 30;
 var timer = document.getElementById('timerNum');
@@ -50,6 +55,32 @@ var victoryPage = document.getElementById('victoryPage');
 var victoryPageX = document.getElementById('victoryPageX');
 var wpmDisplay = document.getElementById('wpm');
 var accuracy = document.getElementById('accuracy');
+
+
+var settingsCheckBox1 = document.getElementById('settingsCheckBox1');
+
+var darkThemeP = document.getElementById('darkThemeP');
+
+var darkTheme = settingsCheckBox1.checked ? 'true' : 'false';
+var colourPalletDark = {
+    "bodyBg":"#09141f",
+    "text":"#364a5f",
+    "error":"#9E2A2B",
+    "correct":"#778da9",
+    "navBg":"#778da9",
+    "highlight":"#13283F",
+    
+};
+var colourPalletLight = {
+    "bodyBg":"#e3f5ff",
+    "text":"#73abfa",
+    "error":"#ff8787",
+    "correct":"#3d8eff",
+    "navBg":"#b8d5ff",
+    "highlight":"#416fa3",
+};
+
+var theme = (darkTheme ? colourPalletDark : colourPalletLight);
 
 function fetchList(){
     
@@ -71,6 +102,7 @@ async function waitForList(){
 waitForList();
 
 function setUp(){
+    
     gameDisabled = false;
     container.style.display = 'inline-flex';
     for (let i = 0; i <= 500; i++) {
@@ -192,7 +224,7 @@ function changeChar(correct, space, key) {
 
         textUserTyped += key;
         text = text.slice(1, text.length);
-        char.style.color = "#778da9";
+        char.style.color = theme.correct;
         currentChar++;
     } else {
         errorTotal++;
@@ -210,7 +242,7 @@ function changeChar(correct, space, key) {
                 textTyped += key;
                 curWordEl().insertAdjacentElement("beforeend", chare);
                 curWordEl().insertBefore(chare, chare.previousElementSibling);
-                chare.style.color = "#9e2a2b";
+                chare.style.color = theme.error;
             }
             
 
@@ -219,7 +251,7 @@ function changeChar(correct, space, key) {
             textTyped += text.slice(0, 1)
             textUserTyped += key
             text = text.slice(1, text.length);
-            char.style.color = "#9e2a2b";
+            char.style.color = theme.error;
             currentChar++;
         }
     }
@@ -371,10 +403,10 @@ function removeUnderlineEl(el) {
 
 
 function addBgEl(el) {
-    el.style.backgroundColor = "#13283f";
+    el.style.backgroundColor = theme.highlight;
 }
 function rmBgEl(el) {
-    el.style.backgroundColor = "#09141f";
+    el.style.backgroundColor = theme.bodyBg;
 }
 
 function deleteChar() {
@@ -410,7 +442,7 @@ function deleteChar() {
         //just for all the regular char and the actual ' '
         console.log('text update var');
         text = textTyped.slice(-1, textTyped.length) + text;
-        changeBackColor.style.color = "#415a77";
+        changeBackColor.style.color = theme.text;
         currentChar--;
 
 
@@ -488,8 +520,7 @@ var blurred = false;
 function blurEl(elNot){
     blurred = true
     
-    document.getElementById('logo').style.opacity = 0.2;
-    document.getElementById('logo').style.webkitFilter = "blur(6px)";
+    
     document.getElementById('container').style.opacity = 0.3;
     document.getElementById('container').style.webkitFilter = "blur(4px)";
     try{
@@ -501,8 +532,7 @@ function unBlurEverything(){
     blurred = false;
    document.getElementById('container').style.opacity = 1;
    document.getElementById('container').style.webkitFilter = "blur(0px)";
-   document.getElementById('logo').style.opacity = 1;
-    document.getElementById('logo').style.webkitFilter = "blur(0px)";
+   
 }
 
 var intervalVar; 
@@ -537,6 +567,9 @@ function disableGame(){
     container.style.display = "none";
 }
 function endScreen(){
+    try{
+        document.getElementById("highScoreH2").remove()
+    }catch(e){}
     let wpm = () =>{
         if(typedNum-errorTotal >= 1){
             return Math.round((typedNum-errorTotal)/5/(time/60));
@@ -544,6 +577,12 @@ function endScreen(){
         return 0;
         
     }
+   /* if(allScores === null){
+        localStorage.allScores = new Array()
+        allScores.push(wpm());
+    }else{
+        allScores.push(wpm());
+    }*/
     let accuracyCalc = () => {
         
         if(typedNum-errorTotal >= 1){
@@ -561,10 +600,24 @@ function endScreen(){
     
     wpmDisplay.innerHTML = wpm();
     accuracy.innerHTML = accuracyCalc() + "%";
+    let newHighScoreBool = false;
     
+    if(checkHighScore(wpm())){
+        newHighScoreBool = true;
+    }
     setTimeout(
         () => { 
+            if(newHighScoreBool){
+                
+                
+                highScoreH2 = document.createElement('h2');
+                highScoreH2.id = "highScoreH2";
+                victoryPage.append(highScoreH2);
+                highScoreH2.innerHTML = "New High Score " + wpm();
+
+            }
             victoryPage.style.opacity = 1; 
+
         }, 50);
     
 }
@@ -585,6 +638,46 @@ function updateTime(){
     timerNum.innerHTML = timeLeft;
 }
 
+function darkThemeToggle(){
+    debugger;
+    if(darkTheme){
+        
+        darkTheme = false;
+        console.log(darkTheme)
+        reColourEverything();
+        victoryPage.style.border = "2px solid black";
+    }else{
+        
+        darkTheme = true;
+        console.log(darkTheme)
+        reColourEverything();
+        victoryPage.style.border = "none";
+    }
+}
+
+
+function checkHighScore(wpm){
+    if(localStorage.highScoreSaved === undefined){
+        localStorage.highScoreSaved = 0;
+    }
+    if(wpm > localStorage.highScoreSaved){
+        highScore = localStorage.highScoreSaved = wpm;
+        return true;
+    }
+    return false;
+}
+
+
+
+function reColourEverything(){
+    debugger;
+    theme = (darkTheme ? colourPalletDark : colourPalletLight);
+    document.body.style.backgroundColor = theme.bodyBg;
+    document.body.style.color = theme.color;
+    aboutPage.style.backgroundColor = theme.navBg;
+    settingsPage.style.backgroundColor = theme.navBg;
+    contactPage.style.backgroundColor = theme.navBg;
+}
 
 
 window.addEventListener("keydown", (e) => {
@@ -597,6 +690,7 @@ window.addEventListener("keypress", (e) => {
     if(blurred || gameDisabled || sliderBool){
         return false;
     }
+   
     slider.style.display = "none";
     sliderBool = false;
     let key = String.fromCharCode(e.keyCode);
@@ -694,7 +788,7 @@ slider.addEventListener('mouseup', () => {
     slider.style.display = "none";
     updateTime();
 });
-slider.addEventListener('mousedown', () => {
+slider.addEventListener('click', () => {
     
     sliderBool = true;
 });
@@ -702,4 +796,16 @@ timerAndSlider.addEventListener('mouseleave', () => {
     
     sliderBool = false;
     slider.style.display = "none";
+});
+
+settingsCheckBox1.addEventListener('change', () => {
+    darkThemeToggle();
+});
+
+deleteHighScoreBtn.addEventListener('click', () => {
+    let doubleCheck = confirm('Warning, you are about to delete your saved highscore, this action cannot be undone');
+    if(doubleCheck){
+        localStorage.highScoreSaved = undefined;
+    }
+    return false;
 });
