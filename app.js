@@ -18,13 +18,13 @@ var char;
 var colorChangeId;
 var changeBackColor;
 var toDelete;
-
+var myChart;
 var exPage = false;
 
 var uniqueLineOffsetTops = [1,1,1];
 var lineOffsetTops= [];
 
-//var allScores = localStorage.allScores;
+var allScores = [];
 //localStorage.setItem("names", JSON.stringify(names));
 
 var aboutBtn = document.getElementById('aboutLink');
@@ -82,6 +82,17 @@ var colourPalletLight = {
 
 var theme = (darkTheme ? colourPalletDark : colourPalletLight);
 
+
+
+
+
+
+
+
+  
+
+
+
 function fetchList(){
     
     return fetch('wordList.json')
@@ -102,7 +113,23 @@ async function waitForList(){
 waitForList();
 
 function setUp(){
+    if(localStorage.time ===  undefined){
+        localStorage.time = 30;
+        
+    }else{
+        time = localStorage.time;
+    }
+    if(localStorage.allScores ===  undefined || localStorage.allScores == ""){
+        localStorage.allScores = "";
+        allScores = [];
+    }else{
+        console.log('else')
+        allScores = JSON.parse(localStorage.allScores);
+    }
     
+    timeLeft = time;
+    timer.innerHTML = time;
+    slider.value = time;
     gameDisabled = false;
     container.style.display = 'inline-flex';
     for (let i = 0; i <= 500; i++) {
@@ -477,9 +504,9 @@ function deleteChar() {
 function resetTest(){
 
     clearInterval(intervalVar);
-    timer.innerHTML = time;
+    timer.innerHTML = localStorage.time;
     timerStarted = false;
-    timeLeft = time;
+    timeLeft = localStorage.time;
     refreshWords();
 }
 function refreshWords(){
@@ -566,6 +593,10 @@ function disableGame(){
     gameDisabled = true;
     container.style.display = "none";
 }
+
+
+
+
 function endScreen(){
     try{
         document.getElementById("highScoreH2").remove()
@@ -577,12 +608,7 @@ function endScreen(){
         return 0;
         
     }
-   /* if(allScores === null){
-        localStorage.allScores = new Array()
-        allScores.push(wpm());
-    }else{
-        allScores.push(wpm());
-    }*/
+  
     let accuracyCalc = () => {
         
         if(typedNum-errorTotal >= 1){
@@ -593,6 +619,8 @@ function endScreen(){
         
     } 
 
+    allScores.push(wpm());
+    localStorage.allScores = JSON.stringify(allScores);
 
     container.style.display = 'none';
     victoryPage.style.display = "flex";
@@ -601,7 +629,8 @@ function endScreen(){
     wpmDisplay.innerHTML = wpm();
     accuracy.innerHTML = accuracyCalc() + "%";
     let newHighScoreBool = false;
-    
+    debugger;
+
     if(checkHighScore(wpm())){
         newHighScoreBool = true;
     }
@@ -614,12 +643,44 @@ function endScreen(){
                 highScoreH2.id = "highScoreH2";
                 victoryPage.append(highScoreH2);
                 highScoreH2.innerHTML = "New High Score " + wpm();
-
+                localStorage.highScoreSaved = wpm();
+                
             }
             victoryPage.style.opacity = 1; 
 
         }, 50);
+    const data = {
     
+        labels: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+             
+            data: allScores
+        }]
+    };
+        
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: false,
+            scales: {
+                y: {
+                    min: 0,
+                    max: parseInt(localStorage.highScoreSaved)+20
+                }
+            }
+        }
+    };
+    
+    try{
+        myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    }catch(e){}
 }
 
 
@@ -633,7 +694,9 @@ function toggleSlider(){
     }
 }
 function updateTime(){
-    time = slider.value;
+    
+    localStorage.time = slider.value;
+    time = localStorage.time;
     timeLeft = time;
     timerNum.innerHTML = timeLeft;
 }
@@ -657,7 +720,7 @@ function darkThemeToggle(){
 
 
 function checkHighScore(wpm){
-    if(localStorage.highScoreSaved === undefined){
+    if(localStorage.highScoreSaved === "undefined" || localStorage.highScoreSaved === undefined){
         localStorage.highScoreSaved = 0;
     }
     if(wpm > localStorage.highScoreSaved){
@@ -670,7 +733,7 @@ function checkHighScore(wpm){
 
 
 function reColourEverything(){
-    debugger;
+    
     theme = (darkTheme ? colourPalletDark : colourPalletLight);
     document.body.style.backgroundColor = theme.bodyBg;
     document.body.style.color = theme.color;
@@ -786,6 +849,7 @@ slider.addEventListener('mouseup', () => {
     sliderBool = false;
     console.log('up')
     slider.style.display = "none";
+    
     updateTime();
 });
 slider.addEventListener('click', () => {
@@ -805,7 +869,7 @@ settingsCheckBox1.addEventListener('change', () => {
 deleteHighScoreBtn.addEventListener('click', () => {
     let doubleCheck = confirm('Warning, you are about to delete your saved highscore, this action cannot be undone');
     if(doubleCheck){
-        localStorage.highScoreSaved = undefined;
+        localStorage.highScoreSaved = "undefined";
     }
     return false;
 });
