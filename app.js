@@ -873,3 +873,6 @@ deleteHighScoreBtn.addEventListener('click', () => {
     }
     return false;
 });
+document.getElementById("reportABugBtn").addEventListener('click', () => {
+   alert("You can contact me here: easi.type.beta.feeback@gmail.com");
+});
