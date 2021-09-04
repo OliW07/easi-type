@@ -281,3 +281,8 @@ canvas{
   width:50%;
   height:100%;
 }
+h3{
+  color:#415a77;
+  display:flex;
+  align-self: left;
+}
