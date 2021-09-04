@@ -213,6 +213,7 @@ img{
 }
 #wpmHead{
   flex-direction: column;
+  width: 15%;
 }
 .containerPage{
   max-width: 100%;
@@ -276,4 +277,7 @@ img{
   flex-direction: row;
 }
 
-
+canvas{
+  width:50%;
+  height:100%;
+}
