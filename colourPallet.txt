@@ -10,5 +10,6 @@ Main Bg : #e3f5ff
 TXT: #73abfa
 Correct: #3d8eff
 Incorrect: #ff8787
-Highlight: #416fa3
+Highlight: #548dce
 Nav: #b8d5ff
+navhighligh: #3279c0

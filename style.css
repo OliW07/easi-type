@@ -68,9 +68,7 @@ ul{
   }
   
 
-  li:hover {
-    background-color:#17314b ;
-  }
+  
 
 #box{
     
@@ -100,12 +98,12 @@ ul{
   flex-direction: column;
   opacity: 0;
   transition: all 0.25s ease-in;
-  height: max-content;
+  max-height: max-content;
   overflow: auto;
   align-items: center;
 }
 #refreshDiv{
-  padding-bottom: 10px;
+  margin-top: 10px;
   width:24px;
   height:24px;
   justify-content: center;
@@ -120,23 +118,26 @@ ul{
 }
 #timer{
   display:flex;
+  margin-bottom: 10px;
   margin-top: 10px;
-  width:24px;
-  height:24px;
+  width:36px;
+  height:36px;
   justify-content: center;
   align-self:center;
+  background-color: #2b3c50;
   
-  background-color: #778da9;
   border-radius: 50%;
   padding:6px;
   text-align: center;
   cursor: pointer;
 }
 #timerNum{
+  font-size: 24px;
   align-self: center;
-  
+  font-weight: bold;
   vertical-align: middle;
   line-height: 50%;
+  color:#778da9;
 }
 #timerAndSlider{
   
@@ -144,8 +145,8 @@ ul{
   align-self: center;
   display: flex;
   flex-direction: column;
-  width:fit-content;
-  
+  max-width:fit-content;
+  margin-bottom: 10px;
 
 
 } 
@@ -155,9 +156,10 @@ ul{
 }
 .slider{
   top: 110%;
-  width: fit-content;
+  max-width: fit-content;
   align-self:center;
-  display:none;
+  visibility: hidden;
+  
   
 }  
 
@@ -207,14 +209,29 @@ img{
   height: 75%;
   width:75%;
   margin:auto;
-
+  justify-items: center;
   display:none;
   transition: all 0.4s ease-in;
 }
 #wpmHead{
-  flex-direction: column;
-  width: 15%;
+  flex-direction: row;
+  width: fit-content;
 }
+#accuracyHead{
+  flex-direction: row;
+  width: fit-content;
+}
+#victoryPageHeaders{
+  display:flex;
+  justify-content: space-evenly;
+}
+#wpm{
+  margin-right: 5px;
+  display:flex;
+  align-items: center;
+}
+
+
 .containerPage{
   max-width: 100%;
   display:inline-flex;
@@ -277,12 +294,22 @@ img{
   flex-direction: row;
 }
 
-canvas{
-  width:50%;
-  height:100%;
-}
+
 h3{
   color:#415a77;
   display:flex;
   align-self: left;
+}
+
+#chartDiv{
+  width:fit-content;
+  display:flex;
+  align-self: center;
+}
+#wpmStarBox{
+  display:flex;
+  flex-direction:row;
+}
+#wpmStar{
+  display: none;
 }

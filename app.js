@@ -20,19 +20,18 @@ var changeBackColor;
 var toDelete;
 var myChart;
 var exPage = false;
-
+var data;
+var config;
 var uniqueLineOffsetTops = [1,1,1];
 var lineOffsetTops= [];
 
 var allScores = [];
 //localStorage.setItem("names", JSON.stringify(names));
 
-var aboutBtn = document.getElementById('aboutLink');
+
 var settingsBtn = document.getElementById('settingsLink');
 var contactBtn = document.getElementById('contactLink');
 
-var aboutPage = document.getElementById('aboutPage');
-var aboutPageX = document.getElementById('aboutPageX');
 
 var settingsPage = document.getElementById('settingsPage');
 var settingsPageX = document.getElementById('settingsPageX');
@@ -61,7 +60,7 @@ var settingsCheckBox1 = document.getElementById('settingsCheckBox1');
 
 var darkThemeP = document.getElementById('darkThemeP');
 
-var darkTheme = settingsCheckBox1.checked ? 'true' : 'false';
+var darkTheme = !settingsCheckBox1.checked ? true : false;
 var colourPalletDark = {
     "bodyBg":"#09141f",
     "text":"#364a5f",
@@ -69,6 +68,8 @@ var colourPalletDark = {
     "correct":"#778da9",
     "navBg":"#778da9",
     "highlight":"#13283F",
+    "navHighlight":"#17314b"
+    
     
 };
 var colourPalletLight = {
@@ -77,7 +78,8 @@ var colourPalletLight = {
     "error":"#ff8787",
     "correct":"#3d8eff",
     "navBg":"#b8d5ff",
-    "highlight":"#416fa3",
+    "highlight":"#548dce",
+    "navHighlight":"#3d8eff"
 };
 
 var theme = (darkTheme ? colourPalletDark : colourPalletLight);
@@ -598,9 +600,7 @@ function disableGame(){
 
 
 function endScreen(){
-    try{
-        document.getElementById("highScoreH2").remove()
-    }catch(e){}
+    
     let wpm = () =>{
         if(typedNum-errorTotal >= 1){
             return Math.round((typedNum-errorTotal)/5/(time/60));
@@ -620,6 +620,7 @@ function endScreen(){
     } 
 
     allScores.push(wpm());
+    
     localStorage.allScores = JSON.stringify(allScores);
 
     container.style.display = 'none';
@@ -638,58 +639,87 @@ function endScreen(){
         () => { 
             if(newHighScoreBool){
                 
-                
-                highScoreH2 = document.createElement('h2');
-                highScoreH2.id = "highScoreH2";
-                victoryPage.append(highScoreH2);
-                highScoreH2.innerHTML = "New High Score " + wpm();
+                document.getElementById("wpmStar").style.display = "block";
                 localStorage.highScoreSaved = wpm();
                 
+            }else{
+                document.getElementById("wpmStar").style.display = "none";
             }
             victoryPage.style.opacity = 1; 
 
         }, 50);
-    const data = {
+    data = {
     
-        labels: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        labels: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         datasets: [{
-            label: 'My First dataset',
+            label: '',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
              
-            data: allScores
+            data: allScores.slice(-15)
         }]
     };
-        
-    const config = {
+       
+    config = {
         type: 'line',
         data: data,
         options: {
+            tooltips : {
+                enabled: false,
+            },
             responsive: false,
+            plugins: {
+                
+                legend: {
+                  display: false
+                }
+            },
+            
+            
             scales: {
                 y: {
                     min: 0,
-                    max: parseInt(localStorage.highScoreSaved)+20
+                    max: Math.ceil((parseInt(localStorage.highScoreSaved))/20)*20,
+                    ticks: {
+                        stepSize: 20,
+                    }
+                    
+                    
+                },
+                x: {
+                    ticks: {
+                        display: false
+                    }
                 }
-            }
+                
+            },
+            
+            
+            
         }
     };
     
     try{
-        myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
+        myChart.destroy();
     }catch(e){}
+    debugger;
+   
+    myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+    document.getElementById('myChart').width = "800";
+    document.getElementById('myChart').height = "300";
+    
 }
 
 
 function toggleSlider(){
     if(!timerStarted){
-        if (window.getComputedStyle(slider, null).display == 'none') {
-            slider.style.display = "block";
+        if (window.getComputedStyle(slider, null).visibility == 'hidden') {
+            slider.style.visibility = "visible";
         } else {
-            slider.style.display = "none";
+            slider.style.visibility = "hidden";
         }
     }
 }
@@ -737,9 +767,17 @@ function reColourEverything(){
     theme = (darkTheme ? colourPalletDark : colourPalletLight);
     document.body.style.backgroundColor = theme.bodyBg;
     document.body.style.color = theme.color;
-    aboutPage.style.backgroundColor = theme.navBg;
+    
     settingsPage.style.backgroundColor = theme.navBg;
     contactPage.style.backgroundColor = theme.navBg;
+}
+function hover(element)
+{
+    element.style.backgroundColor = theme.navHighlight;
+}
+function hoverOff(element)
+{
+    element.style.backgroundColor = "transparent";
 }
 
 
@@ -754,31 +792,14 @@ window.addEventListener("keypress", (e) => {
         return false;
     }
    
-    slider.style.display = "none";
+    slider.style.visibility = "hidden";
     sliderBool = false;
     let key = String.fromCharCode(e.keyCode);
     checkKey(key);
     if(!timerStarted)startTimer(time);
     
 });
-aboutBtn.addEventListener('click',() => {
-   if(timerStarted){
-       return false;
-   }
-    exPage = true;
-    aboutPage.style.left = "0px";
-    sliderBool = false;
-    slider.style.display = "none";
-    blurEl(aboutPage);
-});
 
-aboutPageX.addEventListener('click',() => {
-   
-    exPage = false;
-    aboutPage.style.left = "-50%";
-    unBlurEverything();
-    
-});
 
 
 settingsBtn.addEventListener('click',() => {
@@ -788,7 +809,7 @@ settingsBtn.addEventListener('click',() => {
     exPage = true;
     settingsPage.style.left = "0px";
     sliderBool = false;
-    slider.style.display = "none";
+    slider.style.visibility = "hidden";
     blurEl(settingsPage);
 });
 settingsPageX.addEventListener('click',() => {
@@ -806,7 +827,7 @@ contactBtn.addEventListener('click',() => {
     exPage = true;
     contactPage.style.left = "0px";
     sliderBool = false;
-    slider.style.display = "none";
+    slider.style.visibility = "hidden";
     blurEl(contactPage);
 });
 contactPageX.addEventListener('click',() => {
@@ -830,7 +851,7 @@ victoryPageX.addEventListener('click',() => {
     
     
 });
-timer.addEventListener('click',() => {
+timer.addEventListener('mouseover',() => {
     if(exPage){
         return false;
     }
@@ -848,8 +869,8 @@ var sliderBool = false;
 slider.addEventListener('mouseup', () => {
     sliderBool = false;
     console.log('up')
-    slider.style.display = "none";
-    
+    slider.style.visibility = "hidden";
+
     updateTime();
 });
 slider.addEventListener('click', () => {
@@ -859,7 +880,7 @@ slider.addEventListener('click', () => {
 timerAndSlider.addEventListener('mouseleave', () => {
     
     sliderBool = false;
-    slider.style.display = "none";
+    slider.style.visibility = "hidden";
 });
 
 settingsCheckBox1.addEventListener('change', () => {
