@@ -28,7 +28,7 @@ var lineOffsetTops= [];
 var allScores = [];
 //localStorage.setItem("names", JSON.stringify(names));
 
-
+var profilePage = document.getElementById('profilePage');
 var settingsBtn = document.getElementById('settingsLink');
 var contactBtn = document.getElementById('contactLink');
 
@@ -144,7 +144,7 @@ function setUp(){
         text += word.innerHTML;
     });
     
-    
+    document.getElementById('signInBtn').style.display = "flex";
 }
 
 function offsetTopEl(id){
@@ -761,7 +761,40 @@ function checkHighScore(wpm){
 }
 
 
+var profile;
+function onSignIn(googleUser) {
+            
+    profile = googleUser.getBasicProfile();
+    googleUser.disconnect();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); 
+    console.log(typeof(profile));
 
+    document.getElementById("profilePic").src=profile.getImageUrl();
+    document.getElementById("profilePageX").src=profile.getImageUrl();
+    document.getElementById("profilePic").style.display = "flex";
+    document.getElementById('signInBtn').style.display = 'flex';
+    container.style.display = "flex";
+    document.getElementById('signInPage').style.display = "none";
+    document.getElementById('signInLink').style.display= "none";
+        
+}
+function signOut() {
+    exPage = false;
+    profilePage.style.left = "100%";
+    document.getElementById("profilePic").style.display = "none";
+    unBlurEverything();
+
+    resetTest();
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+    document.getElementById('signInLink').style.display= "flex";
+    document.getElementById("profilePic").src='';
+}
 function reColourEverything(){
     
     theme = (darkTheme ? colourPalletDark : colourPalletLight);
@@ -780,6 +813,11 @@ function hoverOff(element)
     element.style.backgroundColor = "transparent";
 }
 
+function signInPage(){
+    document.getElementById('signInBtn').style.display = 'none';
+    container.style.display = "none";
+    document.getElementById('signInPage').style.display = "flex";
+}
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 8) {
@@ -896,4 +934,32 @@ deleteHighScoreBtn.addEventListener('click', () => {
 });
 document.getElementById("reportABugBtn").addEventListener('click', () => {
    alert("You can contact me here: easi.type.beta.feeback@gmail.com");
+});
+document.getElementById('profilePic').addEventListener('click',() => {
+    if(timerStarted){
+        return false;
+    }
+    document.getElementById('profilePageX').style.display = "flex"
+    exPage = true;
+    profilePage.style.left = "50%";
+    sliderBool = false;
+    slider.style.visibility = "hidden";
+    blurEl(contactPage);
+});
+document.getElementById('profilePageX').addEventListener('click',() => {
+    
+    exPage = false;
+    profilePage.style.left = "100%";
+    unBlurEverything();
+    
+    
+});
+document.getElementById('signInX').addEventListener('click',() => {
+    
+    document.getElementById('signInBtn').style.display = 'flex';
+    container.style.display = "flex";
+    document.getElementById('signInPage').style.display = "none";
+    document.getElementById('signInLink').style.display= "flex";
+    
+    
 });

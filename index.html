@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="929920135241-45bah56soso300trp96oh98c24rjduv5.apps.googleusercontent.com">
     <link rel='stylesheet' type="text/css" href="style.css"/>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     
@@ -13,11 +14,29 @@
         <title>Typing test</title>
 </head>
 <body>
-   
+    <div id="signInBtn">
+        <a id="signInLink"onclick="signInPage()">Sign in</a>
+        <img id="profilePic" class="profilePic"width="50px" height="50px"/>
+    </div>
+    <div id="signInPage">
+        <div id="signInX" class="pageX">X</div>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        
+    </div>
+    
    
     
  
+    <div id="profilePage" >
+        <img id="profilePageX"class="profileX" width="25px" height="25px"/>
+        <a id="signInLink"onclick="signOut()">Sign out</a>
+        <div class="containerPage">
+           <h1>Profile</h1>
+        </div>    
+        
 
+
+    </div>
     <div id="settingsPage" class="pageStyles">
         <div id="settingsPageX" class="pageX">X</div>
         <div class="containerPage">
@@ -59,7 +78,6 @@
     <div id="container">
         
                 
-        </nav>
         
         <div id="refreshBox">
             <div id ="timerAndSlider">
@@ -117,6 +135,8 @@
   
 
     </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
 </body>
 
 
