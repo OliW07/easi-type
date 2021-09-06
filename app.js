@@ -766,12 +766,7 @@ function onSignIn(googleUser) {
             
     profile = googleUser.getBasicProfile();
     googleUser.disconnect();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); 
-    console.log(typeof(profile));
-
+    
     document.getElementById("profilePic").src=profile.getImageUrl();
     document.getElementById("profilePageX").src=profile.getImageUrl();
     document.getElementById("profilePic").style.display = "flex";
@@ -814,9 +809,15 @@ function hoverOff(element)
 }
 
 function signInPage(){
-    document.getElementById('signInBtn').style.display = 'none';
-    container.style.display = "none";
-    document.getElementById('signInPage').style.display = "flex";
+    
+    if(!timerStarted && !exPage){
+        console.log(exPage);
+        document.getElementById('signInBtn').style.display = 'none';
+        container.style.display = "none";
+        document.getElementById('signInPage').style.display = "flex";
+    
+    }
+        
 }
 
 window.addEventListener("keydown", (e) => {
@@ -841,14 +842,15 @@ window.addEventListener("keypress", (e) => {
 
 
 settingsBtn.addEventListener('click',() => {
-    if(timerStarted){
-        return false;
+    
+    if(!timerStarted && !exPage){
+        exPage = true;
+        settingsPage.style.left = "0px";
+        sliderBool = false;
+        slider.style.visibility = "hidden";
+        blurEl(settingsPage);
     }
-    exPage = true;
-    settingsPage.style.left = "0px";
-    sliderBool = false;
-    slider.style.visibility = "hidden";
-    blurEl(settingsPage);
+    
 });
 settingsPageX.addEventListener('click',() => {
    
@@ -859,14 +861,15 @@ settingsPageX.addEventListener('click',() => {
 });
 
 contactBtn.addEventListener('click',() => {
-    if(timerStarted){
-        return false;
+    if(!timerStarted && !exPage){
+        exPage = true;
+        contactPage.style.left = "0px";
+        sliderBool = false;
+        slider.style.visibility = "hidden";
+        blurEl(contactPage);
     }
-    exPage = true;
-    contactPage.style.left = "0px";
-    sliderBool = false;
-    slider.style.visibility = "hidden";
-    blurEl(contactPage);
+    
+    
 });
 contactPageX.addEventListener('click',() => {
     exPage = false;
@@ -936,15 +939,17 @@ document.getElementById("reportABugBtn").addEventListener('click', () => {
    alert("You can contact me here: easi.type.beta.feeback@gmail.com");
 });
 document.getElementById('profilePic').addEventListener('click',() => {
-    if(timerStarted){
-        return false;
+    
+    if(!timerStarted && !exPage){
+       
+        document.getElementById('profilePageX').style.display = "flex"
+        exPage = true;
+        profilePage.style.left = "50%";
+        sliderBool = false;
+        slider.style.visibility = "hidden";
+        blurEl(contactPage);
     }
-    document.getElementById('profilePageX').style.display = "flex"
-    exPage = true;
-    profilePage.style.left = "50%";
-    sliderBool = false;
-    slider.style.visibility = "hidden";
-    blurEl(contactPage);
+    
 });
 document.getElementById('profilePageX').addEventListener('click',() => {
     
