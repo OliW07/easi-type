@@ -60,29 +60,18 @@ var settingsCheckBox1 = document.getElementById('settingsCheckBox1');
 
 var darkThemeP = document.getElementById('darkThemeP');
 
-var darkTheme = !settingsCheckBox1.checked ? true : false;
+var darkTheme = true;
 var colourPalletDark = {
-    "bodyBg":"#09141f",
     "text":"#364a5f",
     "error":"#9E2A2B",
     "correct":"#778da9",
-    "navBg":"#778da9",
     "highlight":"#13283F",
-    "navHighlight":"#17314b"
-    
-    
-};
-var colourPalletLight = {
-    "bodyBg":"#e3f5ff",
-    "text":"#73abfa",
-    "error":"#ff8787",
-    "correct":"#3d8eff",
-    "navBg":"#b8d5ff",
-    "highlight":"#548dce",
-    "navHighlight":"#3d8eff"
+    "navHighlight":"#17314b",
+    "bodyBg":"#09141f"
 };
 
-var theme = (darkTheme ? colourPalletDark : colourPalletLight);
+
+var theme = colourPalletDark;
 
 
 
@@ -112,9 +101,21 @@ async function waitForList(){
     }
 }
 
-waitForList();
+
 
 function setUp(){
+
+    sessionStorage.darkTheme = darkTheme;
+    
+    if(isSignedIn()){
+        
+        document.getElementById('signInLink').style.display = "none";
+        document.getElementById('profilePic').style.display = "flex";
+        document.getElementById('profilePic').src = sessionStorage.profilePicSrc;
+        document.getElementById('profilePageX').src = sessionStorage.profilePicSrc;
+    }else{
+        console.log('nope')
+    }
     if(localStorage.time ===  undefined){
         localStorage.time = 30;
         
@@ -145,6 +146,7 @@ function setUp(){
     });
     
     document.getElementById('signInBtn').style.display = "flex";
+    
 }
 
 function offsetTopEl(id){
@@ -600,7 +602,7 @@ function disableGame(){
 
 
 function endScreen(){
-    
+    exPage = true;
     let wpm = () =>{
         if(typedNum-errorTotal >= 1){
             return Math.round((typedNum-errorTotal)/5/(time/60));
@@ -630,7 +632,8 @@ function endScreen(){
     wpmDisplay.innerHTML = wpm();
     accuracy.innerHTML = accuracyCalc() + "%";
     let newHighScoreBool = false;
-    debugger;
+    
+
 
     if(checkHighScore(wpm())){
         newHighScoreBool = true;
@@ -676,10 +679,10 @@ function endScreen(){
             },
             
             
-            scales: {
+            scales: {//Math.max(allScores.slice(-15))
                 y: {
                     min: 0,
-                    max: Math.ceil((parseInt(localStorage.highScoreSaved))/20)*20,
+                    max: Math.ceil((localStorage.highScoreSaved)/20)*20+20,
                     ticks: {
                         stepSize: 20,
                     }
@@ -702,7 +705,7 @@ function endScreen(){
     try{
         myChart.destroy();
     }catch(e){}
-    debugger;
+    
    
     myChart = new Chart(
         document.getElementById('myChart'),
@@ -732,19 +735,21 @@ function updateTime(){
 }
 
 function darkThemeToggle(){
-    debugger;
-    if(darkTheme){
+    
+    if(sessionStorage.darkTheme == 'true'){
         
         darkTheme = false;
+        sessionStorage.darkTheme = false;
         console.log(darkTheme)
         reColourEverything();
-        victoryPage.style.border = "2px solid black";
+        
     }else{
         
         darkTheme = true;
+        sessionStorage.darkTheme = true;
         console.log(darkTheme)
         reColourEverything();
-        victoryPage.style.border = "none";
+        
     }
 }
 
@@ -760,22 +765,13 @@ function checkHighScore(wpm){
     return false;
 }
 
-
-var profile;
-function onSignIn(googleUser) {
-            
-    profile = googleUser.getBasicProfile();
-    googleUser.disconnect();
-    
-    document.getElementById("profilePic").src=profile.getImageUrl();
-    document.getElementById("profilePageX").src=profile.getImageUrl();
-    document.getElementById("profilePic").style.display = "flex";
-    document.getElementById('signInBtn').style.display = 'flex';
-    container.style.display = "flex";
-    document.getElementById('signInPage').style.display = "none";
-    document.getElementById('signInLink').style.display= "none";
-        
+function isSignedIn(){
+    if(sessionStorage.userName == undefined){
+        return false;
+    }
+    return true;
 }
+
 function signOut() {
     exPage = false;
     profilePage.style.left = "100%";
@@ -789,15 +785,43 @@ function signOut() {
     });
     document.getElementById('signInLink').style.display= "flex";
     document.getElementById("profilePic").src='';
+    document.getElementById("profilePic").style.display='none';
+
+    sessionStorage.clear();
+}
+
+function onLoad() {
+    gapi.load('auth2', function() {
+      gapi.auth2.init();
+    });
+  }
+function isFiltered(){
+   let el = document.getElementsByTagName('html')[0];
+   if(el.className == "filter"){
+       return true;
+
+   }
+   return false;
 }
 function reColourEverything(){
+   
+    sessionStorage.darkTheme = darkTheme;
+    let light = isFiltered();
+
+    if(light && darkTheme || !light && !darkTheme){
+        var elements = document.getElementsByTagName("html");
+        for (i = 0; i < elements.length; i++) {
+            elements[i].classList.toggle('filter');
+        }
     
-    theme = (darkTheme ? colourPalletDark : colourPalletLight);
-    document.body.style.backgroundColor = theme.bodyBg;
-    document.body.style.color = theme.color;
+        var elIdsNotToggle = ['profilePic','profilePageX','victoryPage','settingsCheckBox1','deleteHighScoreBtn','reportABugBtn'];
+        elIdsNotToggle.forEach(element => {
+            document.getElementById(element).classList.toggle('unFilter');
+        });
+    }
+
     
-    settingsPage.style.backgroundColor = theme.navBg;
-    contactPage.style.backgroundColor = theme.navBg;
+ 
 }
 function hover(element)
 {
@@ -811,10 +835,8 @@ function hoverOff(element)
 function signInPage(){
     
     if(!timerStarted && !exPage){
-        console.log(exPage);
-        document.getElementById('signInBtn').style.display = 'none';
-        container.style.display = "none";
-        document.getElementById('signInPage').style.display = "flex";
+        
+        window.location.href ="login.html";
     
     }
         
@@ -827,15 +849,18 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keypress", (e) => {
-    if(blurred || gameDisabled || sliderBool){
+    
+    if(blurred || gameDisabled || sliderBool || exPage){
         return false;
+    }else{
+        slider.style.visibility = "hidden";
+        sliderBool = false;
+        let key = String.fromCharCode(e.keyCode);
+        checkKey(key);
+        if(!timerStarted)startTimer(time);
     }
    
-    slider.style.visibility = "hidden";
-    sliderBool = false;
-    let key = String.fromCharCode(e.keyCode);
-    checkKey(key);
-    if(!timerStarted)startTimer(time);
+    
     
 });
 
@@ -884,7 +909,7 @@ refreshDiv.addEventListener('click',() => {
 });
 
 victoryPageX.addEventListener('click',() => {
-    
+    exPage = false;
     resetTest();
     
     container.style.display = 'inline-flex';
@@ -896,9 +921,11 @@ timer.addEventListener('mouseover',() => {
     if(exPage){
         return false;
     }
+    
     toggleSlider();
 
 });
+
 
 timerAndSlider.onselectstart = function() { return false; };
 
@@ -908,6 +935,15 @@ document.body.onselectstart = function() { return false; };
 var sliderBool = false;
 
 slider.addEventListener('mouseup', () => {
+    exPage = false;
+    sliderBool = false;
+    console.log('up')
+    slider.style.visibility = "hidden";
+
+    updateTime();
+});
+slider.addEventListener('mouseOut', () => {
+    exPage = false;
     sliderBool = false;
     console.log('up')
     slider.style.visibility = "hidden";
@@ -915,11 +951,15 @@ slider.addEventListener('mouseup', () => {
     updateTime();
 });
 slider.addEventListener('click', () => {
-    
+    if(exPage || timerStarted){
+        return false;
+    }
+    exPage = true;
+    console.log(exPage);
     sliderBool = true;
 });
 timerAndSlider.addEventListener('mouseleave', () => {
-    
+    exPage = false;
     sliderBool = false;
     slider.style.visibility = "hidden";
 });
@@ -959,12 +999,20 @@ document.getElementById('profilePageX').addEventListener('click',() => {
     
     
 });
-document.getElementById('signInX').addEventListener('click',() => {
-    
-    document.getElementById('signInBtn').style.display = 'flex';
-    container.style.display = "flex";
-    document.getElementById('signInPage').style.display = "none";
-    document.getElementById('signInLink').style.display= "flex";
-    
-    
+
+
+window.addEventListener("load", function(){
+    debugger;
+    if(sessionStorage.darkTheme == 'true'){
+        darkTheme = true;
+    }else if(sessionStorage.darkTheme == 'false'){
+        darkTheme = false;
+    }else{
+        darkTheme = true;
+    }
+    reColourEverything();
+    if(!darkTheme){
+        document.getElementById('settingsCheckBox1').checked = true;
+    }
+    waitForList();
 });

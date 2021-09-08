@@ -5,15 +5,26 @@ body{
     
     flex-direction: column;
     background-color: #09141f;
-    color: #364a5f;
+    color: #49627e;
     position: relative;
     margin:0px;
     height:100%;
     
+    
+    
 }
 html{
   height:100%;
+  
 }
+.filter{
+  filter: invert(100%) hue-rotate(180deg) brightness(85%);
+}
+
+.unFilter{
+  filter: invert(100%) hue-rotate(180deg) brightness(100%) !important;
+}
+
 #container{
   margin-top:15%;
     display:inline-flex;
@@ -178,11 +189,11 @@ img{
 }
 .pageStyles{
   
-  color:#202c3a;
-  flex-wrap: wrap;
   
+  flex-wrap: wrap;
+  color:#a1b0c0;
   position: absolute;
-  background-color: #9fb6d4;
+  background-color: #132031;
   z-index: 1;
   width: 50%;
   height:100%;
@@ -294,11 +305,7 @@ h3{
 #wpmStar{
   display: none;
 }
-.g-signin2{
-  border-radius: 5%;
-  display: flex;
-  justify-content: center;
-}
+
 
 #navBeta{
   display:flex;
@@ -322,10 +329,10 @@ h3{
   height: 100%;
   background-color:  #778da9;
   z-index:1;
-  display:none;
+  display:flex;
   border-radius:2%;
-  flex-direction: column;
-  
+  flex-direction: row;
+  justify-content:center;
   align-self: center;
 }
 .profilePic{
