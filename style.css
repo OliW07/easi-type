@@ -358,11 +358,11 @@ h3{
   
 }
 #profilePage{
-  color:#202c3a;
+  color:#a1b0c0;
   flex-wrap: wrap;
   display:flex;
   position: absolute;
-  background-color: #9fb6d4;
+  background-color: #132031;
   z-index: 23;
   width: 50%;
   height:100%;
