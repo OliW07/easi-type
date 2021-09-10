@@ -374,3 +374,8 @@ h3{
 #signInLink{
   cursor: pointer;
 }
+.btn{
+  height:fit-content;
+  display:flex;
+  
+}

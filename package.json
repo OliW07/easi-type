@@ -1,0 +1,23 @@
+{
+  "name": "easi-type",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OliW07/easi-type.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OliW07/easi-type/issues"
+  },
+  "homepage": "https://github.com/OliW07/easi-type#readme",
+  "dependencies": {
+    "firebase": "^9.0.2"
+  }
+}

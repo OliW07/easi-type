@@ -111,8 +111,8 @@ function setUp(){
         
         document.getElementById('signInLink').style.display = "none";
         document.getElementById('profilePic').style.display = "flex";
-        document.getElementById('profilePic').src = sessionStorage.profilePicSrc;
-        document.getElementById('profilePageX').src = sessionStorage.profilePicSrc;
+        document.getElementById('profilePic').src = sessionStorage.userProfilepicURL;
+        document.getElementById('profilePageX').src = sessionStorage.userProfilepicURL;
     }else{
         console.log('nope')
     }
@@ -790,11 +790,12 @@ function signOut() {
     sessionStorage.clear();
 }
 
-function onLoad() {
+var onload = () => {
+    console.log('yessss')
     gapi.load('auth2', function() {
       gapi.auth2.init();
     });
-  }
+}
 function isFiltered(){
    let el = document.getElementsByTagName('html')[0];
    if(el.className == "filter"){
@@ -1002,7 +1003,7 @@ document.getElementById('profilePageX').addEventListener('click',() => {
 
 
 window.addEventListener("load", function(){
-    debugger;
+    
     if(sessionStorage.darkTheme == 'true'){
         darkTheme = true;
     }else if(sessionStorage.darkTheme == 'false'){

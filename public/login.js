@@ -1,3 +1,25 @@
+function onSignIn(googleUser) {
+  console.log('Google Auth Response', googleUser);
+  
+  var profile = googleUser.getBasicProfile();
+  unsubscribeBlock(googleUser);
+  sessionStorage.clear();
+  var auth2 = gapi.auth2.getAuthInstance();
+    auth2.disconnect();
+  
+  sessionStorage.userId = profile.getId();
+  sessionStorage.userName = profile.getName();
+  sessionStorage.userEmail = profile.getEmail();
+  sessionStorage.userProfilepicURL = profile.getImageUrl();
+  
+  
+  
+    
+  
+  document.location.href = "/.";
+  
+}
+
 
 
 function isFiltered(){
@@ -36,18 +58,7 @@ function reColourEverything(){
  
 }
 
-var profile;
-function onSignIn(googleUser) {
-            
-    profile = googleUser.getBasicProfile();
-    googleUser.disconnect();
-    
-    sessionStorage.profilePicSrc=profile.getImageUrl();
-    sessionStorage.userName = profile.getGivenName();
-    sessionStorage.userEmail = profile.getEmail();
-    sessionStorage.userId = profile.getId();
-    window.location.replace("./");
-}
+
 
 document.getElementById('signInX').addEventListener('click', ()=>{
     
@@ -55,3 +66,11 @@ document.getElementById('signInX').addEventListener('click', ()=>{
 })
 
 document.addEventListener("DOMContentLoaded", reColourEverything);
+
+
+
+function onLoad() {
+  gapi.load('auth2', function() {
+    gapi.auth2.init();
+  });
+}
