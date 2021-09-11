@@ -40,15 +40,20 @@ function isUserEqual(googleUser, firebaseUser) {
   return false;
 }
 
-window.unsubscribeBlock = function (){
+function onSignIn(googleUser) {
+  debugger;
+  
+  var profile = googleUser.getBasicProfile();
+ 
+  
   const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-    unsubscribe();
+    
     // Check if we are already signed-in Firebase with the correct user.
     if (!isUserEqual(googleUser, firebaseUser)) {
       // Build Firebase credential with the Google ID token.
       const credential = GoogleAuthProvider.credential(
           googleUser.getAuthResponse().id_token);
-      
+
       // Sign in with credential from the Google user.
       signInWithCredential(auth, credential).catch((error) => {
         // Handle Errors here.
@@ -58,13 +63,35 @@ window.unsubscribeBlock = function (){
         const email = error.email;
         // The credential that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
-  
-  
-  
         // ...
       });
     } else {
       console.log('User already signed-in Firebase.');
     }
   });
+  unsubscribe();
+  sessionStorage.clear();
+  //var auth2 = gapi.auth2.getAuthInstance();
+  //  auth2.disconnect();
+  
+  sessionStorage.userId = profile.getId();
+  sessionStorage.userName = profile.getName();
+  sessionStorage.userEmail = profile.getEmail();
+  sessionStorage.userProfilepicURL = profile.getImageUrl();
+  sessionStorage.test = 'hiiii'
+  
+  
+    
+  
+  document.location.href = "/.";
+  
 }
+function onLoad() {
+  gapi.load('auth2', function() {
+    gapi.auth2.init();
+  });
+}
+
+
+window.onLoad = onLoad;
+window.onSignIn = onSignIn;

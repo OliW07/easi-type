@@ -114,7 +114,7 @@ function setUp(){
         document.getElementById('profilePic').src = sessionStorage.userProfilepicURL;
         document.getElementById('profilePageX').src = sessionStorage.userProfilepicURL;
     }else{
-        console.log('nope')
+       
     }
     if(localStorage.time ===  undefined){
         localStorage.time = 30;
@@ -126,7 +126,7 @@ function setUp(){
         localStorage.allScores = "";
         allScores = [];
     }else{
-        console.log('else')
+       
         allScores = JSON.parse(localStorage.allScores);
     }
     
@@ -180,7 +180,7 @@ function nextCharId(currentId=currentCharId()) {
         //previous el because curr would be &nbpsn
         
         next = parseInt(document.getElementById(currentId).previousElementSibling.id.slice(4)) + 1;
-        console.log(next)
+      
     }else if(document.getElementById(currentId).nextElementSibling.innerHTML == "&nbsp"){
         next = document.getElementById(currentId.nextElementSibling.id.slice(4));
     }else{
@@ -219,7 +219,7 @@ function removeLine(line){
         let idNum = parseInt(i.id.slice(4))
         let newId = idNum + 1;
         i = document.getElementById("word" + newId);
-        console.log(i)
+     
     }
     //I now is equal to the first word of the line to be deleted (i is an el)
     //turn i into an int
@@ -316,7 +316,7 @@ function checkLine(id){
         lineOffsetTops.push(offsetTopNum);  
         uniqueLineOffsetTops = new Set(lineOffsetTops);
         uniqueLineOffsetTops = [...uniqueLineOffsetTops];
-        //console.log(uniqueLineOffsetTops);
+       
         count++;
     }
     
@@ -471,7 +471,7 @@ function deleteChar() {
         }
 
         //just for all the regular char and the actual ' '
-        console.log('text update var');
+       
         text = textTyped.slice(-1, textTyped.length) + text;
         changeBackColor.style.color = theme.text;
         currentChar--;
@@ -740,14 +740,14 @@ function darkThemeToggle(){
         
         darkTheme = false;
         sessionStorage.darkTheme = false;
-        console.log(darkTheme)
+      
         reColourEverything();
         
     }else{
         
         darkTheme = true;
         sessionStorage.darkTheme = true;
-        console.log(darkTheme)
+    
         reColourEverything();
         
     }
@@ -780,9 +780,7 @@ function signOut() {
 
     resetTest();
     var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
+    auth2.signOut()
     document.getElementById('signInLink').style.display= "flex";
     document.getElementById("profilePic").src='';
     document.getElementById("profilePic").style.display='none';
@@ -791,7 +789,7 @@ function signOut() {
 }
 
 var onload = () => {
-    console.log('yessss')
+  
     gapi.load('auth2', function() {
       gapi.auth2.init();
     });
@@ -938,7 +936,7 @@ var sliderBool = false;
 slider.addEventListener('mouseup', () => {
     exPage = false;
     sliderBool = false;
-    console.log('up')
+   
     slider.style.visibility = "hidden";
 
     updateTime();
@@ -946,7 +944,7 @@ slider.addEventListener('mouseup', () => {
 slider.addEventListener('mouseOut', () => {
     exPage = false;
     sliderBool = false;
-    console.log('up')
+   
     slider.style.visibility = "hidden";
 
     updateTime();
@@ -956,7 +954,7 @@ slider.addEventListener('click', () => {
         return false;
     }
     exPage = true;
-    console.log(exPage);
+   
     sliderBool = true;
 });
 timerAndSlider.addEventListener('mouseleave', () => {

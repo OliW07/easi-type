@@ -1,24 +1,4 @@
-function onSignIn(googleUser) {
-  console.log('Google Auth Response', googleUser);
-  
-  var profile = googleUser.getBasicProfile();
-  unsubscribeBlock(googleUser);
-  sessionStorage.clear();
-  var auth2 = gapi.auth2.getAuthInstance();
-    auth2.disconnect();
-  
-  sessionStorage.userId = profile.getId();
-  sessionStorage.userName = profile.getName();
-  sessionStorage.userEmail = profile.getEmail();
-  sessionStorage.userProfilepicURL = profile.getImageUrl();
-  
-  
-  
-    
-  
-  document.location.href = "/.";
-  
-}
+
 
 
 
@@ -69,8 +49,3 @@ document.addEventListener("DOMContentLoaded", reColourEverything);
 
 
 
-function onLoad() {
-  gapi.load('auth2', function() {
-    gapi.auth2.init();
-  });
-}
