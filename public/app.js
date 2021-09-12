@@ -110,9 +110,11 @@ function setUp(){
     if(isSignedIn()){
         
         document.getElementById('signInLink').style.display = "none";
+        document.getElementById('profilePage').style.display = "none";
         document.getElementById('profilePic').style.display = "flex";
-        document.getElementById('profilePic').src = sessionStorage.userProfilepicURL;
-        document.getElementById('profilePageX').src = sessionStorage.userProfilepicURL;
+        document.getElementById('profilePic').src = sessionStorage.photoURL;
+        document.getElementById('profilePageX').src = sessionStorage.photoURL;
+
     }else{
        
     }
@@ -653,7 +655,7 @@ function endScreen(){
         }, 50);
     data = {
     
-        labels: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+       // labels: [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0],
         datasets: [{
             label: '',
             backgroundColor: 'rgb(255, 99, 132)',
@@ -689,6 +691,11 @@ function endScreen(){
                     
                     
                 },
+                yAxes: [{
+                    ticks: {
+                        display: false
+                    }
+                }],
                 x: {
                     ticks: {
                         display: false
@@ -766,7 +773,7 @@ function checkHighScore(wpm){
 }
 
 function isSignedIn(){
-    if(sessionStorage.userName == undefined){
+    if(sessionStorage.displayName == undefined){
         return false;
     }
     return true;
@@ -775,6 +782,7 @@ function isSignedIn(){
 function signOut() {
     exPage = false;
     profilePage.style.left = "100%";
+    profilePage.style.display = "none";
     document.getElementById("profilePic").style.display = "none";
     unBlurEverything();
 
@@ -983,11 +991,13 @@ document.getElementById('profilePic').addEventListener('click',() => {
        
         document.getElementById('profilePageX').style.display = "flex"
         exPage = true;
+        profilePage.style.display = 'flex';
         profilePage.style.left = "50%";
         sliderBool = false;
         slider.style.visibility = "hidden";
         blurEl(contactPage);
     }
+
     
 });
 document.getElementById('profilePageX').addEventListener('click',() => {

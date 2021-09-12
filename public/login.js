@@ -1,4 +1,28 @@
 
+let signIn = true;
+
+function toggleSignIn(el){
+    let login = document.getElementById('login');
+    let signup = document.getElementById('signup');
+    let signInBtns = document.getElementById('signInBtns')
+    let signUpBtns = document.getElementById('signUpBtns')
+    
+    if(signIn && el != 'login'){
+        
+        signIn = false;
+        login.classList.toggle("loginSignupToggle");
+        signup.classList.toggle("loginSignupToggle");
+        signInBtns.style.display = "none";
+        signUpBtns.style.display = "flex";
+
+    }else if(!signIn && el == "login"){
+        signIn = true;
+        login.classList.toggle("loginSignupToggle");
+        signup.classList.toggle("loginSignupToggle");
+        signInBtns.style.display = "flex";
+        signUpBtns.style.display = "none";
+    }
+}
 
 
 
@@ -27,7 +51,7 @@ function reColourEverything(){
         elements[i].classList.toggle('filter');
     }
     
-    var elIdsNotToggle = ['btn'];
+    var elIdsNotToggle = ['google-btn','email-btn'];
     elIdsNotToggle.forEach(element => {
         document.getElementById(element).classList.toggle('unFilter');
     })

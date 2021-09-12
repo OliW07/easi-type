@@ -3,31 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <meta name="google-signin-client_id" content="113686263390-9bqmh445kk5mmt7gq3l30d61tu2tmj7c.apps.googleusercontent.com">
     <meta name="google-signin-cookiepolicy" content="single_host_origin">
     <meta name="google-signin-scope" content="profile email">
     <link rel='stylesheet' type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
     <script type="module" src="module.js"></script>
     
     <title>Login - Easi-type</title>
 </head>
 <body>
     <div id="signInPage">
-        <div id="btn">
-            <div class="btn">
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+   
+    <div id="signInX" class="pageX">X</div>
+    <div class="loginSignup"><h1 onclick="toggleSignIn('login')"id="login"class="loginSignupToggle">Sign in</h1><h1 onclick="toggleSignIn('signup')"id="signup"class="">Sign up</h1></div>
+    
+    <div id="signInBtns">
+        
+          <div class="upAndDown">
+            <form>
+              <input class="input"type="input" id="emailSignIn" placeholder="email" class="">
+              <input class="input"type="password" id="passwordSignIn" autocomplete="on" placeholder="password" class="">
+            </form>
+            
+          </div>
+          
+       
+        
+        <div class="email-btn"id="email-btn" onclick="emailBtnPressed(true)">
+          <div class="email-icon-wrapper">
+            <img class="email-icon" src="assets/email.png"/>
+          </div>
+          <p class="btn-text"><b>Sign in with email</b></p>
+
+        </div>
+        <h4>or</h4>
+        <div><div class="google-btn" id="google-btn" onclick="signInGoogle()">
+            <div class="google-icon-wrapper">
+              <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
             </div>
-           
+            <p class="btn-text"><b>Sign in with google</b></p>
         </div>
         
-        <div id="signInX" class="pageX">X</div>
+      </div>
+      
+     
+
+    
+    </div>
+    <div id="signUpBtns">
+      
+        <div class="upAndDown">
+          <form>
+            <input class="input"type="input" id="name" placeholder="Name" class="">
+            <input class="input"type="input" id="emailSignUp" placeholder="email" class="">
+            <input class="input"type="password" id="passwordSignUp" autocomplete="on" placeholder="password" class="">
+          </form>
+          
+        </div>
+        
+      
+      
+      <div class="email-btn"id="email-btn" onclick="emailBtnPressed(false)">
+        <div class="email-icon-wrapper">
+          <img class="email-icon" src="assets/email.png"/>
+        </div>
+        <p class="btn-text"><b>Sign in with email</b></p>
+
+      </div>
+      
+      
     </div>
 </body>
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
    
 </script>
 <script src="login.js"></script> 

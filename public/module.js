@@ -1,8 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
-import { getAuth, onAuthStateChanged, signInWithCredential, getRedirectResult,signInWithRedirect, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { getAuth, signOut, signInWithEmailAndPassword, onAuthStateChanged,createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 
-const provider = new GoogleAuthProvider();
+
+
+const googleProvider = new GoogleAuthProvider();
+
+
 
 //import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -24,74 +28,153 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
+const user = auth.currentUser;
 
 
-function isUserEqual(googleUser, firebaseUser) {
-  if (firebaseUser) {
-    const providerData = firebaseUser.providerData;
-    for (let i = 0; i < providerData.length; i++) {
-      if (providerData[i].providerId === GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()) {
-        // We don't need to reauth the Firebase connection.
-        return true;
-      }
-    }
-  }
-  return false;
+async function createNewUser(email,password) {
+  return new Promise(resolve =>{
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      
+      user = userCredential.user;
+      resolve('created')
+     
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(error.message);
+      resolve('error')
+      
+    });
+  })
+  
 }
 
-function onSignIn(googleUser) {
-  debugger;
-  
-  var profile = googleUser.getBasicProfile();
- 
-  
-  const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-    
-    // Check if we are already signed-in Firebase with the correct user.
-    if (!isUserEqual(googleUser, firebaseUser)) {
-      // Build Firebase credential with the Google ID token.
-      const credential = GoogleAuthProvider.credential(
-          googleUser.getAuthResponse().id_token);
+function storageSessionData(){
+  try{
 
-      // Sign in with credential from the Google user.
-      signInWithCredential(auth, credential).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.email;
-        // The credential that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-    } else {
-      console.log('User already signed-in Firebase.');
-    }
+  
+      sessionStorage.displayName = user.displayName;
+      sessionStorage.email = user.email;
+      sessionStorage.photoURL = user.photoURL;
+      sessionStorage.emailVerified = user.emailVerified;
+  }catch(e){}
+}
+
+
+
+
+function signInUser(email,password) {
+  return new Promise(resolve => {
+    
+  
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+    // Signed in 
+      const user = userCredential.user;
+      resolve('signedIn');
+    // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      resolve('error');
+    });
   });
-  unsubscribe();
-  sessionStorage.clear();
-  //var auth2 = gapi.auth2.getAuthInstance();
-  //  auth2.disconnect();
-  
-  sessionStorage.userId = profile.getId();
-  sessionStorage.userName = profile.getName();
-  sessionStorage.userEmail = profile.getEmail();
-  sessionStorage.userProfilepicURL = profile.getImageUrl();
-  sessionStorage.test = 'hiiii'
-  
-  
+}
+
+
+async function emailBtnPressed(signIn){
+  signOut(auth);
+  if(signIn){
+    let email = document.getElementById('emailSignIn').value;
+    let password = document.getElementById('passwordSignIn').value;
+    let waiting = await signInUser(email, password);
+    if(waiting == 'signedIn'){
+      window.user=user;
+      storageSessionData();
+      window.location.href = "/."
+    }else{
+      alert('password wrong');
+    }
+  }else{
+    let email = document.getElementById('emailSignUp').value;
+    let password = document.getElementById('passwordSignUp').value;
+    let name = document.getElementById('name').value;
+    let waitingAgain = await createNewUser(email, password);
+    if(waitingAgain == "created"){
+      storageSessionData();
+      window.location.href = "/."
+    }else{
+      
+    }
     
-  
-  document.location.href = "/.";
+  }
   
 }
+
+function signInGoogle(){
+  
+  signInWithPopup(auth, googleProvider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    window.location.href ="/."
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+  
+}
+
+
+
+
 function onLoad() {
   gapi.load('auth2', function() {
     gapi.auth2.init();
   });
 }
 
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    if (user !== null) {
+      
+      storageSessionData();
+      
+      
+      // The user's ID, unique to the Firebase project. Do NOT use
+      // this value to authenticate with your backend server, if
+      // you have one. Use User.getToken() instead.
+      const uid = user.uid;
+      
+    }
+    
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+  
+});
+
+
+
 
 window.onLoad = onLoad;
-window.onSignIn = onSignIn;
+window.signInGoogle = signInGoogle;
+window.createNewUser = createNewUser;
+window.signInUser = signInUser;
+window.emailBtnPressed = emailBtnPressed;
+window.user = user;
