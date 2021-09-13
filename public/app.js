@@ -655,7 +655,7 @@ function endScreen(){
         }, 50);
     data = {
     
-       // labels: [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        labels: [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0],
         datasets: [{
             label: '',
             backgroundColor: 'rgb(255, 99, 132)',
@@ -691,7 +691,7 @@ function endScreen(){
                     
                     
                 },
-                yAxes: [{
+                xAxes: [{
                     ticks: {
                         display: false
                     }
@@ -848,7 +848,11 @@ function signInPage(){
     }
         
 }
-
+function alertMessage(message,color="red"){
+    document.getElementById('alertBox').style.display = 'block';
+    document.getElementById('alertBox').style.backgroundColor = color;
+    document.getElementById('alertMessage').innerText = message;
+}
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 8) {
         deleteChar();

@@ -1,6 +1,10 @@
 
 let signIn = true;
-
+function alertMessage(message,color="red"){
+    document.getElementById('alertBox').style.display = 'block';
+    document.getElementById('alertBox').style.backgroundColor = color;
+    document.getElementById('alertMessage').innerText = message;
+}
 function toggleSignIn(el){
     let login = document.getElementById('login');
     let signup = document.getElementById('signup');

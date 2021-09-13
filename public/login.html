@@ -14,6 +14,10 @@
     <title>Login - Easi-type</title>
 </head>
 <body>
+  <div class="alert"id="alertBox">
+    <span id="closebtn" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div id='alertMessage'></div>
+  </div>
     <div id="signInPage">
    
     <div id="signInX" class="pageX">X</div>
@@ -22,29 +26,32 @@
     <div id="signInBtns">
         
           <div class="upAndDown">
-            <form>
-              <input class="input"type="input" id="emailSignIn" placeholder="email" class="">
-              <input class="input"type="password" id="passwordSignIn" autocomplete="on" placeholder="password" class="">
+            <form class="upAndDown">
+              <input class="input" type="input" id="emailSignIn" placeholder="email" class="">
+              <input class="input" type="password" id="passwordSignIn" autocomplete="on" placeholder="password" class="">
+              <div class="email-btn"id="email-btn" onclick="emailBtnPressed(true)">
+                <div class="email-icon-wrapper">
+                  <img class="email-icon" src="assets/email.png"/>
+                </div>
+                <p class="btn-text"><b>Sign in with email</b></p>
+      
+              </div>
+              <h4>or</h4>
+              <div>
+                  <div class="google-btn" id="google-btn" onclick="signInGoogle()">
+                  <div class="google-icon-wrapper">
+                    <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                  </div>
+                  <p class="btn-text"><b>Sign in with google</b></p>
+              </div>
             </form>
             
           </div>
           
        
         
-        <div class="email-btn"id="email-btn" onclick="emailBtnPressed(true)">
-          <div class="email-icon-wrapper">
-            <img class="email-icon" src="assets/email.png"/>
-          </div>
-          <p class="btn-text"><b>Sign in with email</b></p>
-
-        </div>
-        <h4>or</h4>
-        <div><div class="google-btn" id="google-btn" onclick="signInGoogle()">
-            <div class="google-icon-wrapper">
-              <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
-            </div>
-            <p class="btn-text"><b>Sign in with google</b></p>
-        </div>
+        
+       
         
       </div>
       
@@ -55,23 +62,24 @@
     <div id="signUpBtns">
       
         <div class="upAndDown">
-          <form>
+          <form class="upAndDown">
             <input class="input"type="input" id="name" placeholder="Name" class="">
             <input class="input"type="input" id="emailSignUp" placeholder="email" class="">
             <input class="input"type="password" id="passwordSignUp" autocomplete="on" placeholder="password" class="">
+            <div class="email-btn"id="email-btn" onclick="emailBtnPressed(false)">
+              <div class="email-icon-wrapper">
+                <img class="email-icon" src="assets/email.png"/>
+              </div>
+              <p class="btn-text"><b>Sign in with email</b></p>
+      
+            </div>
           </form>
           
         </div>
         
       
       
-      <div class="email-btn"id="email-btn" onclick="emailBtnPressed(false)">
-        <div class="email-icon-wrapper">
-          <img class="email-icon" src="assets/email.png"/>
-        </div>
-        <p class="btn-text"><b>Sign in with email</b></p>
-
-      </div>
+      
       
       
     </div>
