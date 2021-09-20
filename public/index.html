@@ -2,10 +2,10 @@
 <!--github-->
 
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html tabindex="-1"lang="en" translate="no">
 <head>
     <meta charset="UTF-8">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-signin-client_id" content="113686263390-9bqmh445kk5mmt7gq3l30d61tu2tmj7c.apps.googleusercontent.com">
     <meta name="google-signin-cookiepolicy" content="single_host_origin">
     <meta name="google-signin-scope" content="profile email">
@@ -13,17 +13,15 @@
     <meta name="description" content="Easi-type is a user-friendly typing test to track your typing speeds, accuracy and progress over time.">
     <meta name="robots" content="index, follow" />
 
-    <link rel='stylesheet' type="text/css" href="style.css"/>
+    <link rel='stylesheet' type="text/css" href="styles/root.css"/>
+    <link rel='stylesheet' type="text/css" href="styles/index.css"/>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
     
         <title>Easi-type</title>
 </head>
-<body>
-    <div id="signInBtn">
-        <a id="signInLink"onclick="signInPage()">Sign in</a>
-        <img id="profilePic" class="profilePic"width="50px" height="50px"/>
-    </div>
+<body tabindex="-1">
+    
     <div class="alert"id="alertBox">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <div id='alertMessage'></div>
@@ -33,43 +31,9 @@
    
     
  
-    <div id="profilePage" >
-        <img id="profilePageX"class="profileX" width="25px" height="25px"/>
-        <a id="signInLink"onclick="signOut()">Sign out</a>
-        <div class="containerPage">
-           <h1>Profile</h1>
-        </div>    
-        
-
-
-    </div>
-    <div id="settingsPage" class="pageStyles">
-        <div id="settingsPageX" class="pageX">X</div>
-        <div class="containerPage">
-            <h2 class="pageTxtTitle">Settings</h2>
-            <div>
-                <p id="darkThemeP">Light theme:</p>
-                <input type="checkbox"  class="settingsCheckBox" id="settingsCheckBox1" unchecked>
-            </div>
-            <div>
-                <p id="deleteHighScore">Delete highscore:</p>
-                <input type="button"  value="Delete" class="settingsButton" id="deleteHighScoreBtn">
-            </div>
-            <div>
-                <button id="reportABugBtn">Report a bug</button><br>
-                
-            </div>
-            
-        </div>    
-     
-    </div>
-    <div id="contactPage" class="pageStyles">
-        <div id="contactPageX" class="pageX">X</div>
-        <div class="containerPage">
-            <h2 class="pageTxtTitle">contact</h2>
-        </div>    
-     
-    </div>
+    
+    
+    <!-- They were here !!!!-->
     <div id="victoryPage"class="">
         <div id="victoryPageX" class="pageX">X</div>
         <div id="victoryPageHeaders">
@@ -89,7 +53,7 @@
             <div id ="timerAndSlider">
                 
                 <div id="timer"><div id="timerNum">30</div></div>
-                <input type="range" min="1" max="120" value="30" class="slider" id="timerSlider" oninput="timer.innerHTML=timerSlider.value">
+                <input type="range" min="15" max="60" step="15" value="30" class="slider" id="timerSlider" oninput="timer.innerHTML=timerSlider.value">
                 
             </div>
             
@@ -98,12 +62,64 @@
                 <nav>
             
                     <ul class="nav-links">
-                        
-                        <div class="navDivs">
-                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"id="contactLink"> <img src="assets/contact.png"> </li>
+                        <div class="navDivs"id="loginLink">
+                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img src="assets/person.png"> </li>
+                            <p class="navText" >Login</p>
                         </div>
-                        <div class="navDivs">
-                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"id="settingsLink"> <img src="assets/settings.png"></li>
+                        <div id="accountPage" style="display:none;"class="pageStyles accountPage">
+                           <div class="beside">
+                            
+                            <img id="profilePageX"class="profileX" width="25px" height="25px"/>
+                            <div id="accountPageX" class="pageX">X</div>
+                           </div>
+                            
+                            <div class="containerPage">
+                                <h2 class="pageTxtTitle">Account</h2>
+                                <a class="signInLink" onclick="signOutUser();window.location.href='login.html'">Sign out</a>
+                            </div>    
+                         
+                        </div>
+                        
+
+
+                        <div class="navDivs"id="contactLink">
+                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img src="assets/contact.png"> </li>
+                            <p class="navText" >Contact</p>
+                        </div>
+                        <div id="contactPage" style="display:none;"class="pageStyles contactPage">
+                            <div id="contactPageX" class="pageX">X</div>
+                            <div class="containerPage">
+                                <h2 class="pageTxtTitle">contact</h2>
+                            </div>    
+                         
+                        </div>
+                        <div class="navDivs" id="settingsLink">
+                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img src="assets/settings.png"></li>
+                            <p class="navText" >Settings</p>
+                        </div>
+                        <div id="settingsPage" style="display:none;"class="pageStyles settingsPage">
+                            <div id="settingsPageX" class="pageX">X</div>
+                            <div class="containerPage">
+                                <h2 class="pageTxtTitle">Settings</h2>
+                                
+                                <div class="settingsOpions">
+                                    <div>
+                                        <p id="darkThemeP">Light theme:</p>
+                                        <input type="checkbox"tabindex="-1"  class="settingsCheckBox" id="settingsCheckBox1" unchecked>
+                                    </div>
+                                    <div>
+                                        <p id="deleteHighScore">Delete highscore:</p>
+                                        <input tabindex="-1"type="button"  value="Delete" class="settingsButton" id="deleteHighScoreBtn">
+                                    </div>
+                                    <div>
+                                        <button tabindex="-1"id="reportABugBtn">Report a bug</button><br>
+                                        
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>    
+                         
                         </div>
                         
                         
@@ -126,10 +142,10 @@
         </div>
         
        
-    </div><!---
-    <div>
+    </div><!----
+    <div id="lowerPage">
         <h2>Why should you learn?</h2>
-        <p>Typing is an important skill to have mastered in this day and age, as 
+        <p class="lowerText">Typing is an important skill to have mastered in this day and age, as 
             computers, computing and technology in general increase in popularity.
             For students and workers, the abilty to type efficiently and accuracy
             is very usuful, because in the long term all those hours we've all spend 
@@ -142,9 +158,10 @@
             to write those emails; Finish that essay; And literally everything else you
             use your keyboard for everyday.
         </p>
+        
         <h3>Is touch typing important?</h3>
-        <p></p>
-    </div>-->
+        <p></p>-->
+    </div>
        
     
     
@@ -153,8 +170,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-<script type="module" src="module.js"></script>
-<script src="app.js"></script> 
+<script type="module" src="scripts/module.js"></script>
+<script src="scripts/app.js"></script> 
 
     
     

@@ -55,7 +55,7 @@ function reColourEverything(){
         elements[i].classList.toggle('filter');
     }
     
-    var elIdsNotToggle = ['google-btn','email-btn'];
+    var elIdsNotToggle = ['google-btn','email-btn','emailSignIn','passwordSignIn'];
     elIdsNotToggle.forEach(element => {
         document.getElementById(element).classList.toggle('unFilter');
     })

@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
-import { getAuth, signOut, sendEmailVerification, signInWithEmailAndPassword, onAuthStateChanged,createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { getAuth, signOut, updateProfile,sendEmailVerification,sendPasswordResetEmail, signInWithEmailAndPassword, onAuthStateChanged,createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 
 
 
@@ -53,17 +53,20 @@ async function createNewUser(email,password) {
   })
   
 }
-
-function storageSessionData(){
-  try{
-
-  
-      sessionStorage.displayName = user.displayName;
-      sessionStorage.email = user.email;
-      sessionStorage.photoURL = user.photoURL;
-      sessionStorage.emailVerified = user.emailVerified;
-  }catch(e){}
+function resetPassword(){
+  let email = prompt("What is your regestigered email?")
+  sendPasswordResetEmail(auth, email)
+  .then(() => {
+    // Password reset email sent!
+    // ..
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
 }
+
 
 
 
@@ -72,10 +75,13 @@ function signInUser(email,password) {
   return new Promise(resolve => {
     
   
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email, password, name)
     .then((userCredential) => {
     // Signed in 
-      const user = userCredential.user;
+      user = userCredential.user;
+      window.user = user;
+      
+      
       resolve('signedIn');
     // ...
     })
@@ -87,8 +93,19 @@ function signInUser(email,password) {
   });
 }
 
-
+function updateInfo(userName,url="assets/person.png"){
+  updateProfile(auth.currentUser, {
+    displayName: userName, photoURL: url
+  }).then(() => {
+    // Profile updated!
+    // ...
+  }).catch((error) => {
+    // An error occurred
+    // ...
+  });
+}
 async function emailBtnPressed(signIn){
+  debugger;
   signOut(auth);
   if(signIn){
     let email = document.getElementById('emailSignIn').value;
@@ -96,7 +113,8 @@ async function emailBtnPressed(signIn){
     let waiting = await signInUser(email, password);
     if(waiting == 'signedIn'){
       window.user=user;
-      storageSessionData();
+      
+      setSessionUserData();
       window.location.href = "/."
     }else if(waiting.slice(0,5) == 'Error'){
       let mess = waiting.split(']')[1];
@@ -106,16 +124,20 @@ async function emailBtnPressed(signIn){
       console.log('waiting');
     }
   }else{
+    
     let email = document.getElementById('emailSignUp').value;
     let password = document.getElementById('passwordSignUp').value;
     let name = document.getElementById('name').value;
     let waitingAgain = await createNewUser(email, password);
     if(waitingAgain == "created"){
-      storageSessionData();
+      updateInfo(name);
+      setSessionUserData();
       sendEmailVerification(auth.currentUser)
       .then(() => {
+        
         console.log('sent')
         alertMessage('We just send you a cofimation email, please click on the click to verify your account','green','/.')
+        
       });
       
       
@@ -126,6 +148,14 @@ async function emailBtnPressed(signIn){
     }
     
   }
+  
+}
+function signOutUser(){
+  signOut(auth);
+  sessionStorage.displayName = undefined;
+  sessionStorage.email = undefined;
+  sessionStorage.photoURL = undefined;
+  sessionStorage.emailVerified = undefined;
   
 }
 function checkErrorMessage(message){
@@ -172,7 +202,9 @@ function signInGoogle(){
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     // The signed-in user info.
-    const user = result.user;
+    user = result.user;
+    window.user = user;
+    setSessionUserData();
     window.location.href ="/."
     // ...
   }).catch((error) => {
@@ -188,7 +220,22 @@ function signInGoogle(){
   
 }
 
+function setSessionUserData(){
+  if(user !== null){
+    sessionStorage.displayName = user.displayName;
+    sessionStorage.email = user.email;
+    sessionStorage.photoURL = user.photoURL;
+    sessionStorage.emailVerified = user.emailVerified;
+  
+    // The user's ID, unique to the Firebase project. Do NOT use
+    // this value to authenticate with your backend server, if
+    // you have one. Use User.getToken() instead.
 
+
+    //sessionStorage.uid = user.uid;
+  }
+  
+}
 
 
 function onLoad() {
@@ -201,7 +248,7 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     if (user !== null) {
       
-      storageSessionData();
+      setSessionUserData();
       
       
       // The user's ID, unique to the Firebase project. Do NOT use
@@ -218,7 +265,7 @@ onAuthStateChanged(auth, (user) => {
   }
   
 });
-
+setSessionUserData();
 
 
 
@@ -228,3 +275,5 @@ window.createNewUser = createNewUser;
 window.signInUser = signInUser;
 window.emailBtnPressed = emailBtnPressed;
 window.user = user;
+window.resetPassword = resetPassword;
+window.signOutUser = signOutUser;

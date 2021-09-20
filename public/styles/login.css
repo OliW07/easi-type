@@ -1,0 +1,160 @@
+#signInBtn{
+    display:none;
+    cursor: pointer;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding:10px;
+    color: #778da9;
+    align-self: end;
+  }
+  #signInPage{
+  
+    margin-top:40px;
+    margin-bottom: 40px;
+    padding:40px;
+    width: 40%;
+    height: 100%;
+    background-color:  #8aa8cf;
+    z-index:1;
+    display:flex;
+    border-radius:2%;
+    flex-direction: column;
+    
+    align-self: center;
+  }
+  #signInBtns{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    height:100%;
+  }
+  #signUpBtns{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    height:100%;
+    display:none;
+  }
+  .google-btn {
+    margin:20px;
+    cursor: pointer;
+    width: 184px;
+    height: 42px;
+    background-color: #4285f4;
+    border-radius: 2px;
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+  }
+  .google-icon-wrapper {
+    position: absolute;
+      margin-top: 1px;
+      margin-left: 1px;
+      width: 40px;
+      height: 40px;
+      border-radius: 2px;
+      background-color: #fff;
+  }
+  .google-icon {
+    position: absolute;
+    margin-top: 11px;
+    margin-left: 11px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-text {
+    float: right;
+    margin: 11px 11px 0 0;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    font-family: "Sans-serif";
+    
+   
+    
+  }
+  .google-btn:hover{
+    
+    box-shadow: 0 0 6px #4285f4;
+    
+  }
+  .email-btn {
+    margin:20px;
+    cursor: pointer;
+    width: 184px;
+    height: 42px;
+    background-color: #f5817d;
+    border-radius: 2px;
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+  }
+  .email-icon-wrapper {
+    position: absolute;
+      margin-top: 1px;
+      margin-left: 1px;
+      width: 40px;
+      height: 40px;
+      border-radius: 2px;
+      background-color: #fff;
+  }
+  .email-icon {
+    position: absolute;
+    margin-top: 11px;
+    margin-left: 11px;
+    width: 18px;
+    height: 18px;
+  }
+  .btn-text {
+    float: right;
+    margin: 11px 11px 0 0;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    font-family: "Sans-serif";
+    
+   
+    
+  }
+  .email-btn:hover{
+    
+    box-shadow: 0 0 6px #f5817d;
+    
+  }
+  .loginTitle{
+    display: flex;
+    align-self: center;
+    margin-bottom:200px;
+    width:fit-content;
+    height:fit-content;
+  }
+  
+  
+  
+  @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+  
+  .upAndDown{
+    display: flex;
+    flex-direction:column;
+    height: 100%;
+    align-items: center;
+    width:100%;
+  }
+  .input{
+    width: 50vh;
+    height: 5%;
+    margin:5px;
+    align-self: center;
+  }
+  .loginSignup{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-evenly;
+  }
+  
+  
+  .loginSignupToggle{
+    color:#253e5c;
+    text-decoration: underline;
+  }
+  form{
+    height:100%;
+    margin-top: 50px;
+  }

@@ -1,0 +1,73 @@
+body {
+  height: 100%;
+  font-family: "Raleway", sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: #112030;
+  color: #6e849e;
+  position: relative;
+  margin: 0px;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+html {
+  height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.pageX {
+  
+  width: 100%;
+  display: inline-flex;
+  
+  margin: 10px;
+  align-self: flex-end;
+  cursor: pointer;
+  height: fit-content;
+  width: fit-content;
+}
+.filter {
+  filter: invert(100%) hue-rotate(180deg) brightness(85%);
+}
+
+.unFilter {
+  filter: invert(100%) hue-rotate(180deg) brightness(100%) !important;
+}
+
+.btn {
+  height: fit-content;
+  display: flex;
+}
+
+.alert {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+  width: 100%;
+  display: none;
+  z-index: 1000;
+}
+
+.closebtn {
+  margin-left: 15px;
+  margin-right: 50px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+.lowerText {
+  color: #b9b9b9;
+}
