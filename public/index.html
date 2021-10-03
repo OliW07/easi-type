@@ -17,6 +17,11 @@
     <link rel='stylesheet' type="text/css" href="styles/index.css"/>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;600&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500&family=Roboto&display=swap" rel="stylesheet">
     
         <title>Easi-type</title>
 </head>
@@ -29,10 +34,10 @@
     
     
    
-    
+    <h1 class="logo"><span class="bold">Easi</span>-type <span id="logoSwitch"class="flashingLogo">|</span></h1>
  
     
-    
+
     <!-- They were here !!!!-->
     <div id="victoryPage"class="">
         <div id="victoryPageX" class="pageX">X</div>
@@ -58,113 +63,157 @@
             </div>
             
 
-            <div id="boxNav">
-                <nav>
             
-                    <ul class="nav-links">
-                        <div class="navDivs"id="loginLink">
-                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img src="assets/person.png"> </li>
-                            <p class="navText" >Login</p>
-                        </div>
-                        <div id="accountPage" style="display:none;"class="pageStyles accountPage">
-                           <div class="beside">
-                            
-                            <img id="profilePageX"class="profileX" width="25px" height="25px"/>
-                            <div id="accountPageX" class="pageX">X</div>
-                           </div>
-                            
-                            <div class="containerPage">
-                                <h2 class="pageTxtTitle">Account</h2>
-                                <a class="signInLink" onclick="signOutUser();window.location.href='login.html'">Sign out</a>
-                            </div>    
-                         
-                        </div>
+                
+                
+            <div id='box'></div>
+            
+            
+           
+            <nav>
+            
+                <ul class="nav-links">
+                    <div class="navDivs"id="loginLink">
                         
-
-
-                        <div class="navDivs"id="contactLink">
-                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img src="assets/contact.png"> </li>
-                            <p class="navText" >Contact</p>
-                        </div>
-                        <div id="contactPage" style="display:none;"class="pageStyles contactPage">
-                            <div id="contactPageX" class="pageX">X</div>
-                            <div class="containerPage">
-                                <h2 class="pageTxtTitle">contact</h2>
-                            </div>    
-                         
-                        </div>
-                        <div class="navDivs" id="settingsLink">
-                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img src="assets/settings.png"></li>
-                            <p class="navText" >Settings</p>
-                        </div>
-                        <div id="settingsPage" style="display:none;"class="pageStyles settingsPage">
-                            <div id="settingsPageX" class="pageX">X</div>
-                            <div class="containerPage">
-                                <h2 class="pageTxtTitle">Settings</h2>
-                                
-                                <div class="settingsOpions">
-                                    <div>
-                                        <p id="darkThemeP">Light theme:</p>
-                                        <input type="checkbox"tabindex="-1"  class="settingsCheckBox" id="settingsCheckBox1" unchecked>
-                                    </div>
-                                    <div>
-                                        <p id="deleteHighScore">Delete highscore:</p>
-                                        <input tabindex="-1"type="button"  value="Delete" class="settingsButton" id="deleteHighScoreBtn">
-                                    </div>
-                                    <div>
-                                        <button tabindex="-1"id="reportABugBtn">Report a bug</button><br>
-                                        
-                                    </div>
-                                </div>
-                                
-                                
-                            </div>    
-                         
-                        </div>
-                        
-                        
-                      
-                    </ul>
-                    <div class="burger">
-                       
-                        <div class="line1"></div>
-                        <div class="line1"></div>
-                        <div class="line1"></div>
+                        <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img class="navImg"src="assets/person.png"> </li>
+                        <p class="navText" >Login</p>
                     </div>
-                </nav>
-                <h3> beta </h3>
-                <div id='box'></div>
-            </div>
-            
-            <div id="refreshDiv"></div>
+                    
+                    
 
+
+                    <div class="navDivs"id="contactLink">
+                        <a tabindex="-1"href="#contact">
+                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img class="navImg"src="assets/contact.png"> </li>
+                            <p class="navText" >Contact</p>
+                        </a>
+                        
+                    </div>
+                    
+                    <div class="navDivs" id="settingsLink">
+                        <a tabindex="-1"href="#settings">
+                            <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> <img class="navImg"src="assets/settings.png"></li>
+                            <p class="navText" >Settings</p>
+                        </a>
+                        
+                    </div>
+                    <div class="navDivs" id="refreshLink">
+                        <li onmouseover="hover(this)" onmouseout="hoverOff(this)"> 
+                            <div class="navImg" id="refreshDiv"><p id="refreshTxt">Tab + enter</p></div>
+                        </li>
+                        
+                    </div>
+                    
+                    
+                    
+                  
+                </ul>
+                
+            </nav>
             
         </div>
         
        
-    </div><!----
-    <div id="lowerPage">
-        <h2>Why should you learn?</h2>
-        <p class="lowerText">Typing is an important skill to have mastered in this day and age, as 
-            computers, computing and technology in general increase in popularity.
-            For students and workers, the abilty to type efficiently and accuracy
-            is very usuful, because in the long term all those hours we've all spend 
-            typing away at a keyboard will be (and should be) minamilised. Picture this,
-            if the average typing speed is around 40 words per minute (WPM), and you
-            start practing a couple times a week, if you keep the habit up for (lets say)
-            siz months, then over that time your typing speed could increase to over 100
-            words per minute. Thats over double the speed you were originally typing at.
-            This then could save you half of the original time you normally would take 
-            to write those emails; Finish that essay; And literally everything else you
-            use your keyboard for everyday.
-        </p>
-        
-        <h3>Is touch typing important?</h3>
-        <p></p>-->
     </div>
+    <div id="sectionCont">
+        <section id="about_me" class=pageStyles>
+            <h1 class='pageHeader'>About me</h1>
+            
+            <p class="aboutMeText"><b>Hi I'm Oliver</b>. I'm a solo developer working 
+                on easi-type, I built easi-type because I was consistantly sick 
+                of never being able to practice touch typing in a clean, and customizable
+                way. Currrently, easi-type is still in a embryonic stage of development and
+                there's a lot of features soon to be released.
+            </p>
+            <h2 id="touchTyping">What is <i> touch typing </i>?</h2>
+            <p class="aboutMeText">Typing is an important skill to have mastered in this day and age, as 
+                computers, computing and technology in general increase in popularity.
+                For students and workers, the abilty to type efficiently and accuracy
+                is very usuful, because in the long term all those hours we've all spend 
+                typing away at a keyboard will be (and should be) minamilised. Picture this,
+                if the average typing speed is around 40 words per minute (WPM), and you
+                start practing a couple times a week, if you keep the habit up for (lets say)
+                siz months, then over that time your typing speed could increase to over 100
+                words per minute. Thats over double the speed you were originally typing at.
+                This then could save you half of the original time you normally would take 
+                to write those emails; Finish that essay; And literally everything else you
+                use your keyboard for everyday.
+            </p>
+            
+            
+        </section>
+        
+        <section id="accountPage"style="display:none;" class="pageStyles accountPage">
+            <div class="beside">
+             
+             <img id="profilePageX"class="profileX" width="25px" height="25px"/>
+             <div id="accountPageX" class="pageX">X</div>
+            </div>
+             
+             <div class="containerPage">
+                 <h2 class="pageTxtTitle">Account</h2>
+                 <a class="signInLink" onclick="signOutUser();window.location.href='login.html'">Sign out</a>
+             </div>    
+          
+        </section>
+    
+         <section id="settings" class="pageStyles settingsPage">
+           
+            <div class="containerPage"id="containerPage">
+                <h2 class="pageTxtTitle">Settings</h2>
+                
+                
+                <!--<div class="settingsOption">
+                    <p> Blinking logo </p>
+                    <div class="onoffswitch">
+                        
+                        <div class="switch">
+                            <input type="checkbox" name="logoSwitch" id="logoSwitch"class="onoffswitch-checkbox"  tabindex="0" onclick="settingsSwitch(this)"checked>
+                            <label class="onoffswitch-label" for="logoSwitch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        
+                        
+                    </div>
+                </div>-->
+                <div class="settingsOption">
+                    <p> Punctuation </p>
+                    <div class="onoffswitch">
+                        
+                        <div class="switch">
+                            <input type="checkbox" name="punctuation" id="punctuation"class="onoffswitch-checkbox"  tabindex="0"onclick="togglePunc()"unchecked>
+                            <label class="onoffswitch-label" for="punctuation">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+                
+        
+                
+                
+            </div>    
+         
+         </section>
+    </div>
+    
+    
+    
+    
+    
+   
+    
        
     
-    
+    <footer id="footer">
+        <span id="footerTxt"><p>Icons by &nbsp<a tabindex="-1"href="https://icons8.com"> Icons8</a></p></span>
+    </footer>
     
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>

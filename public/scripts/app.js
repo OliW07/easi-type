@@ -1,4 +1,6 @@
 var gameDisabled = false;
+var gameStarted = false;
+
 var typedNum = 0;
 var errorTotal = 0;
 var wordlist;
@@ -32,15 +34,16 @@ var profilePage = document.getElementById("profilePage");
 var settingsBtn = document.getElementById("settingsLink");
 var contactBtn = document.getElementById("contactLink");
 var loginBtn = document.getElementById("loginLink");
+var refreshBtn = document.getElementById("refreshLink");
 
 var accountBtn = document.getElementById("loginLink")
 var accountPage = document.getElementById("accountPage");
 var accountPageX = document.getElementById("accountPageX");
 
-var settingsPage = document.getElementById("settingsPage");
+var settingsPage = document.getElementById("settings");
 var settingsPageX = document.getElementById("settingsPageX");
 
-var contactPage = document.getElementById("contactPage");
+var contactPage = document.getElementById("contact");
 var contactPageX = document.getElementById("contactPageX");
 
 var refreshDiv = document.getElementById("refreshDiv");
@@ -64,16 +67,29 @@ var settingsCheckBox1 = document.getElementById("settingsCheckBox1");
 var darkThemeP = document.getElementById("darkThemeP");
 
 var darkTheme = true;
-var colourPalletDark = {
-  text: "#364a5f",
+var defaultPallet1 = {
+  text: "#14279B",
   error: "#9E2A2B",
-  correct: "#9fc9ff",
-  highlight: "#13283F",
-  navHighlight: "#17314b",
-  bodyBg: "#112030",
+  correct: "#946e61",
+  highlight: "rgb(244 211 191)",
+  navHighlight: "rgb(244 211 191)",
+  bodyBg: "#5C7AEA",
+  timerBg: "#fff",
+  sectionBg: "#a1b3f5",
+  sectionColor: "#0a0b44",
 };
-
-var theme = colourPalletDark;
+var defaultPallet = {
+  text: "#412319",
+  error: "#9E2A2B",
+  correct: "#946e61",
+  highlight: "rgb(244 211 191)",
+  navHighlight: "rgb(244 211 191)",
+  bodyBg: "#fee3d5",
+  timerBg: "#D7B19D",
+  sectionBg: "#f5ded3",
+  sectionColor: "#412319",
+};
+var theme = defaultPallet;
 
 function fetchList() {
   return fetch("wordList.json")
@@ -91,8 +107,9 @@ async function waitForList() {
 }
 
 function setUp() {
-  sessionStorage.darkTheme = darkTheme;
-
+  console.log('setUp')
+ 
+  document.body.style.overflow = "visible";
   if (isSignedIn()) {
    
     
@@ -125,6 +142,7 @@ function setUp() {
   });
 
   
+  reColourEverything();
 }
 
 function offsetTopEl(id) {
@@ -216,8 +234,8 @@ function skipCurrentWord() {
 
   let oldChar = currentChar;
   currentWord++;
-  curWordEl = document.getElementById("word" + currentWord);
-  currentChar = curWordEl.firstElementChild.id.substring(4);
+  
+  currentChar = curWordEl().firstElementChild.id.substring(4);
   let newChar = currentChar;
   let difference = newChar - oldChar;
   textTyped += text.slice(parseInt(oldChar) - 1, parseInt(newChar) - 1);
@@ -283,7 +301,7 @@ function currentCharId(num = currentChar) {
   return "char" + num.toString();
 }
 
-function curWordEl() {
+var curWordEl = () => {
   return document.getElementById("word" + currentWord);
 }
 
@@ -315,25 +333,120 @@ function randomWord() {
   let random = wordlist[Math.floor(Math.random() * wordlist.length)];
   return random;
 }
-
+var punctuation = false;
+let nextWordCap = false;
+var charapun;
+var wordsInSentce = () => {
+  return Math.ceil(Math.random() * (10-5) + 5);
+};
+var randomBetween = function(min,max){
+  
+  return Math.floor(Math.random() * (max-min+1)+min);
+}
 function makeWord() {
   let word = randomWord();
   let letters = word.split("");
+  
+  
+ 
+  let makeFullstop = false;
+  if(idWordIterations % wordsInSentce() == 0 && punctuation){
+    makeFullstop = true
 
+  }else if(!punctuation){
+    nextWordCap = false;
+
+  }
+  
   let div = document.createElement("div");
-
   div.id = "word" + idWordIterations.toString();
 
   letters.forEach((letter) => {
     let chara = makeChar(letter);
-
+    if(nextWordCap){
+      chara.innerHTML = chara.innerHTML.toUpperCase();
+      nextWordCap = false;
+      
+    }
     text += chara.innerText;
     div.append(chara);
+    
   });
+  if(makeFullstop){
+    
+    //make fullstop
+    let charap = makeChar('.');
+    text += charap.innerText;
+    div.append(charap);
 
-  let space = makeChar("&nbsp");
-  text += " ";
-  div.append(space);
+    let space = makeChar("&nbsp");
+    text += " ";
+    div.append(space);
+    nextWordCap = true;
+   
+
+  }else if(randomBetween(1,12)==1 && punctuation){
+    
+    let choice = randomBetween(1,6);
+    switch (choice){
+      
+      case 1:
+        charapun = makeChar(';');
+        text += charapun.innerText;
+        div.append(charapun);
+        nextWordCap = true;
+        break;
+      case 2:
+        charapun = makeChar('!');
+        text += charapun.innerText;
+        div.append(charapun);
+        nextWordCap = true;
+        break;
+      case 3:
+        charapun = makeChar('?');
+        text += charapun.innerText;
+        div.append(charapun);
+        nextWordCap = true;
+        break;
+      case 4:
+        charapun = makeChar(':');
+        text += charapun.innerText;
+        div.append(charapun);
+        break;
+      case 5:
+        let charapunspace = makeChar('&nbsp');
+        charapun = makeChar('-');
+        text += charapunspace.innerText;
+        text += charapun.innerText;
+        div.append(charapunspace);
+        div.append(charapun);
+        break;
+      
+    }
+  
+  }else if(randomBetween(1,6)==1 && punctuation){
+
+    
+    let choice = randomBetween(1,2);
+    switch (choice){
+      case 1:
+        let charapun1 = makeChar(',');
+        text += charapun1.innerText;
+        div.append(charapun1);
+        break;
+      
+     
+    }
+  }
+  if(!makeFullstop){
+    let space = makeChar("&nbsp");
+    text += " ";
+    div.append(space);
+  }
+  
+    
+  
+ 
 
   div.className = "word";
   box.append(div);
@@ -450,13 +563,22 @@ function deleteChar() {
 }
 
 function resetTest() {
+  console.log('reset')
   clearInterval(intervalVar);
   timer.innerHTML = localStorage.time;
   timerStarted = false;
   timeLeft = localStorage.time;
+  if(punctuation){
+    //nextWordCap = true;
+  }
   refreshWords();
+
 }
 function refreshWords() {
+  if(punctuation){
+    nextWordCap = true;
+  }
+  exPage = false;
   typedNum = 0;
   errorTotal = 0;
   idCharIterations = 1;
@@ -466,24 +588,19 @@ function refreshWords() {
   char = 1;
   container.style.display = "none";
   container.style.opacity = 0;
-  while (true) {
-    try {
-      box.firstElementChild.remove();
-    } catch (e) {
-      textUserTyped = "";
-      textTyped = "";
-      text = "";
 
-      setUp();
-      container.style.display = "flex";
+  //removes all children
+  box.innerHTML = ''
+  textUserTyped = "";
+  textTyped = "";
+  text = "";
+  setUp();
+  container.style.display = "flex";
 
-      setTimeout(function () {
-        container.style.opacity = 1;
-      }, 50);
-
-      break;
-    }
-  }
+  setTimeout(function () {
+    container.style.opacity = 1;
+  }, 50);
+  
 }
 
 var blurred = false;
@@ -548,6 +665,10 @@ function disableGame() {
 }
 
 function endScreen() {
+  document.body.style.overflow = 'hidden';
+  gameStarted = false;
+  
+
   exPage = true;
   let wpm = () => {
     if (typedNum - errorTotal >= 1) {
@@ -637,19 +758,10 @@ function endScreen() {
           },
         },
       },
-    },
-  };
+    }
+  }
 
-  try {
-    myChart.destroy();
-  } catch (e) {}
-
-  myChart = new Chart(document.getElementById("myChart"), config);
-  document.getElementById("myChart").width = "800";
-  document.getElementById("myChart").height = "300";
-}
-
-function toggleSlider() {
+  toggleSlider()
   if (!timerStarted) {
     if (window.getComputedStyle(slider, null).visibility == "hidden") {
       slider.style.visibility = "visible";
@@ -658,6 +770,7 @@ function toggleSlider() {
       slider.style.visibility = "hidden";
     }
   }
+
 }
 function updateTime() {
   localStorage.time = slider.value;
@@ -665,20 +778,19 @@ function updateTime() {
   timeLeft = time;
   timerNum.innerHTML = timeLeft;
 }
-
-function darkThemeToggle() {
-  if (sessionStorage.darkTheme == "true") {
-    darkTheme = false;
-    sessionStorage.darkTheme = false;
-
-    reColourEverything();
-  } else {
-    darkTheme = true;
-    sessionStorage.darkTheme = true;
-
-    reColourEverything();
-  }
+function settingLedColorToggle(el,color){
+  
+  if(el.style.backgroundColor == "green"){
+    color = 'red'
+  }else{
+    color = 'green'
+    }
+  
+  el.style.backgroundColor = color;
+  el.style.boxShadow = "0 0 3vh 1vh "+color; 
 }
+
+
 function isMobile(){
   return navigator.userAgentData.mobile;
 }
@@ -711,6 +823,8 @@ function signOut() {
   unBlurEverything();
 
   resetTest();
+  //!nope
+
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut();
   document.getElementById("signInLink").style.display = "flex";
@@ -732,28 +846,40 @@ function isFiltered() {
   }
   return false;
 }
+let textBrightness = 1;
+function toggleTextBrightness(){
+ /* if(textBrightness == 1){
+    document.getElementById("textBrightnessToggle").src = "assets/textBrightness2.png";
+    document.body.style.color = "#6e849ec9";
+    textBrightness++;
+  }else if(textBrightness == 2){
+    document.getElementById("textBrightnessToggle").src = "assets/textBrightness3.png";
+    document.body.style.color = "#6e849e81";
+    textBrightness++;
+  }else{
+    document.getElementById("textBrightnessToggle").src = "assets/textBrightness1.png";
+    debugger;
+    document.body.style.color="#6e849ef8";
+    textBrightness=1;*/
+  
+  
+  
+}
 function reColourEverything() {
-  sessionStorage.darkTheme = darkTheme;
-  let light = isFiltered();
+  
+ 
 
-  if ((light && darkTheme) || (!light && !darkTheme)) {
-    var elements = document.getElementsByTagName("html");
-    for (i = 0; i < elements.length; i++) {
-      elements[i].classList.toggle("filter");
-    }
+  
+  document.body.style.color = theme.text;
 
-    var elIdsNotToggle = [
-      "profilePic",
-      "profilePageX",
-      "victoryPage",
-      "settingsCheckBox1",
-      "deleteHighScoreBtn",
-      "reportABugBtn",
-    ];
-    elIdsNotToggle.forEach((element) => {
-      document.getElementById(element).classList.toggle("unFilter");
-    });
-  }
+  let r = document.querySelector(':root');
+  let rs = getComputedStyle(r);
+  r.style.setProperty('--bodyBg', theme.bodyBg);
+  r.style.setProperty('--bodyColor', theme.text);
+  r.style.setProperty('--footerBg', theme.footerBg);
+  r.style.setProperty('--sectionBg', theme.sectionBg);
+
+
 }
 function hover(element) {
   element.style.backgroundColor = theme.navHighlight;
@@ -761,11 +887,45 @@ function hover(element) {
 function hoverOff(element) {
   element.style.backgroundColor = "transparent";
 }
-
+function toggleSlider(){
+  if (slider.style.visibility == "hidden"){
+    slider.style.visibility == "visible";
+  }
+  slider.style.visibility == "hidden";
+}
 function signInPage() {
   if (!timerStarted && !exPage) {
     window.location.href = "login.html";
   }
+}
+function logoFlashToggle(){
+  if(document.getElementById('logoSwitch').style.animation == "none"){
+    document.getElementById('logoSwitch').style.animation == "blinker 1s step-start infinite";
+  }else{
+    document.getElementById('logoSwitch').style.animation == "none";
+  }
+}
+function settingsSwitch(el){
+ 
+  let check = el.checked;
+  let switchName = el.name;
+
+  switch(switchName){
+    case "logoSwitch":
+      
+      logoFlashToggle();
+      break;
+    case "punctuation":
+      togglePunc();
+      break;
+  }
+
+}
+function togglePunc(){
+  punctuation = !punctuation;
+  nextWordCap = true;
+  
+  refreshWords();
 }
 function alertMessage(message, color = "red") {
   document.getElementById("alertBox").style.display = "block";
@@ -776,98 +936,56 @@ var tabDown = false;
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 8) {
     deleteChar();
-  } else if (e.keyCode == 9) {
+  }
+  if (e.keyCode == 9) {
     tabDown = true;
+    e.preventDefault();
+  }
+  
+});
+window.addEventListener("keyup", (e) => {
+  if(e.keyCode == 9){
+    tabDown = false;
+  }
+  if(e.keyCode == 32){
+    e.preventDefault();
   }
 });
 
 window.addEventListener("keypress", (e) => {
   if (blurred || gameDisabled || sliderBool || exPage) {
     return false;
-  } else if (e.keyCode == 13 && tabDown) {
+  } else if(!(window.scrollY === 0)){
+    window.scrollTo(0, 0);
+  }else if (e.keyCode == 13 && tabDown) {
     resetTest();
-  } else {
-   
+    //! Not this
+  }else {
+    
+    
     slider.style.visibility = "hidden";
     sliderBool = false;
     let key = String.fromCharCode(e.keyCode);
     checkKey(key);
     if (!timerStarted) startTimer(time);
+    gameStarted = true;
+    document.body.style.overflow = 'hidden';
   }
 });
 
 settingsBtn.addEventListener("click", () => {
-  debugger;
-  if (!timerStarted && !exPage) {
-    exPage = true;
-    sliderBool = false;
-    slider.style.visibility = "hidden";
-    if(!isMobile()){
-      
-      settingsPage.style.left = "0px";
-      settingsPage.style.display = "flex"
-      
+ 
+  sliderBool = false;
+  slider.style.visibility = "hidden";
+});
 
-      blurEl(settingsPage);
-    }else{
-      settingsPage.style.display = "flex"
-      contactBtn.style.display="none";
-      settingsBtn.style.display="none";
-      accountBtn.style.display = "none";
-    }
-    
-  }
-});
-settingsPageX.addEventListener("click", () => {
-  exPage = false;
-  if(isMobile()){
-    settingsPage.style.display = 'none';
-    contactBtn.style.display="flex";
-    settingsBtn.style.display="flex";
-    accountBtn.style.display = "flex"
-  }else{
-    settingsPage.style.left = "-50%";
-    unBlurEverything();
-  }
-});
 
 contactBtn.addEventListener("click", () => {
   
-  exPage = true;
-    sliderBool = false;
-    slider.style.visibility = "hidden";
-    debugger;
-    if(!isMobile()){
-      
-      contactPage.style.left = "0px";
-      contactPage.style.display = "flex"
-      
-
-      blurEl(contactPage);
-    }else{
-      
-      contactPage.style.display = "flex";
-
-      settingsBtn.style.display = "none";
-      contactBtn.style.display = "none";
-      accountBtn.style.display = "none";
-
-    }
+  sliderBool = false;
+  slider.style.visibility = "hidden";
 });
-contactPageX.addEventListener("click", () => {
-  exPage = false;
-  if(isMobile()){
-    contactPage.style.display = 'none';
-    settingsBtn.style.display = "flex";
-    contactBtn.style.display = "flex";
-    accountBtn.style.display = "flex"
-  }else{
-    contactPage.style.left = "-50%";
-    unBlurEverything();
-  }
-  
- 
-});
+
 loginBtn.addEventListener("click", () => {
   debugger;
   exPage = false;
@@ -920,16 +1038,29 @@ accountPageX.addEventListener("click", () => {
   
  
 });
-refreshDiv.addEventListener("click", () => {
+refreshBtn.addEventListener("click", () => {
+  gameStarted = false;
+  document.body.style.overflow = 'visible';
   if(blurred){
     return false;
   }
   resetTest();
+  //! Not this
+});
+refreshBtn.addEventListener("mouseover", () => {
+  console.log('over')
+  document.getElementById('refreshTxt').style.visibility = "visible";
+});
+refreshBtn.addEventListener("mouseout", () => {
+  document.getElementById('refreshTxt').style.visibility = "hidden";
+  
 });
 
 victoryPageX.addEventListener("click", () => {
+  document.body.style.overflow = 'visible';
   exPage = false;
   resetTest();
+  //!Nope
 
   container.style.display = "inline-flex";
   victoryPage.style.display = "none";
@@ -985,7 +1116,7 @@ timerAndSlider.addEventListener("mouseleave", () => {
   slider.style.visibility = "hidden";
 });
 
-settingsCheckBox1.addEventListener("change", () => {
+/*settingsCheckBox1.addEventListener("change", () => {
   darkThemeToggle();
 });
 
@@ -1000,8 +1131,7 @@ deleteHighScoreBtn.addEventListener("click", () => {
 });
 document.getElementById("reportABugBtn").addEventListener("click", () => {
   alert("You can contact me here: easi.type.beta.feeback@gmail.com");
-});
-
+});*/
 
 
 window.addEventListener("load", function () {
@@ -1014,7 +1144,8 @@ window.addEventListener("load", function () {
   }
   reColourEverything();
   if (!darkTheme) {
-    document.getElementById("settingsCheckBox1").checked = true;
+    document.getElementById("darkThemeToggle").src = 'assets/light.jpg';
   }
   waitForList();
 });
+
