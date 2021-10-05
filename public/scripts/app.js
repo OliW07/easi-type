@@ -80,13 +80,13 @@ var defaultPallet1 = {
 };
 var defaultPallet = {
   text: "#412319",
-  error: "#9E2A2B",
-  correct: "#946e61",
+  error: "#b54e4f",
+  correct: "#9cd12b",
   highlight: "rgb(244 211 191)",
   navHighlight: "rgb(244 211 191)",
-  bodyBg: "#fee3d5",
+  bodyBg: "#F1FFE7",
   timerBg: "#D7B19D",
-  sectionBg: "#f5ded3",
+  sectionBg: "#e5f3db",
   sectionColor: "#412319",
 };
 var theme = defaultPallet;
@@ -588,6 +588,7 @@ function refreshWords() {
   char = 1;
   container.style.display = "none";
   container.style.opacity = 0;
+  gameStarted = false;
 
   //removes all children
   box.innerHTML = ''
@@ -770,6 +771,13 @@ function endScreen() {
       slider.style.visibility = "hidden";
     }
   }
+  try {
+    myChart.destroy();
+  } catch (e) {}
+
+  myChart = new Chart(document.getElementById("myChart"), config);
+  document.getElementById("myChart").width = "800";
+  document.getElementById("myChart").height = "300";
 
 }
 function updateTime() {
@@ -888,10 +896,14 @@ function hoverOff(element) {
   element.style.backgroundColor = "transparent";
 }
 function toggleSlider(){
-  if (slider.style.visibility == "hidden"){
-    slider.style.visibility == "visible";
+  let theSlider = document.getElementsByClassName('slider')[0]
+  debugger;
+  if (theSlider.style.visibility == "hidden"){
+    theSlider.style.visibility = "visible";
   }
-  slider.style.visibility == "hidden";
+  else{
+    theSlider.style.visibility = "hidden";
+  }
 }
 function signInPage() {
   if (!timerStarted && !exPage) {
@@ -1066,7 +1078,7 @@ victoryPageX.addEventListener("click", () => {
   victoryPage.style.display = "none";
 });
 timer.addEventListener("mouseover", () => {
-  if (exPage || blurred) {
+  if (exPage || blurred || gameStarted) {
     return false;
   }
 

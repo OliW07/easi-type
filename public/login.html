@@ -23,69 +23,71 @@
   </div>
     <div id="Page">
    
-    <div id="signInX" class="pageX">X</div>
-    <div class="loginSignup"><h1 onclick="toggleSignIn('login')"id="login"class="">Sign in</h1><h1 onclick="toggleSignIn('signup')"id="signup"class="loginSignupToggle">Sign up</h1></div>
-    
-    <div id="signInBtns">
+      <div id="signInX" class="pageX">X</div>
+      <div class="content">
+        <div class="loginSignup"><h1 onclick="toggleSignIn('login')"id="login"class="loginSignupToggle">Sign in</h1><h1 onclick="toggleSignIn('signup')"id="signup"class="">Sign up</h1></div>
+        <div id="signUpBtns">
         
           <div class="upAndDown">
             <form class="upAndDown">
-              <input class="input" type="input" id="emailSignIn" placeholder="email" class="">
-              <input class="input" type="password" id="passwordSignIn" autocomplete="on" placeholder="password" class="">
-              <div onclick="resetPassword()">Forgot password?</div>
-              <div class="email-btn"id="email-btn" onclick="emailBtnPressed(true)">
+              <input class="input"type="input" id="name" placeholder="Name" class="">
+              <input class="input"type="input" id="emailSignUp" placeholder="Email" class="">
+              <input class="input"type="password" id="passwordSignUp" autocomplete="on" placeholder="Password" class="">
+              <div class="email-btn"id="email-btn" onclick="emailBtnPressed(false)">
                 <div class="email-icon-wrapper">
                   <img class="email-icon" src="assets/email.png"/>
                 </div>
                 <p class="btn-text"><b>Sign in with email</b></p>
-      
-              </div>
-              <h4>or</h4>
-              <div>
-                  <div class="google-btn" id="google-btn" onclick="signInGoogle()">
-                  <div class="google-icon-wrapper">
-                    <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
-                  </div>
-                  <p class="btn-text"><b>Sign in with google</b></p>
+        
               </div>
             </form>
             
           </div>
           
-       
         
         
-       
         
-      </div>
-      
-     
-
-    
-    </div>
-    <div id="signUpBtns">
-      
-        <div class="upAndDown">
-          <form class="upAndDown">
-            <input class="input"type="input" id="name" placeholder="Name" class="">
-            <input class="input"type="input" id="emailSignUp" placeholder="email" class="">
-            <input class="input"type="password" id="passwordSignUp" autocomplete="on" placeholder="password" class="">
-            <div class="email-btn"id="email-btn" onclick="emailBtnPressed(false)">
-              <div class="email-icon-wrapper">
-                <img class="email-icon" src="assets/email.png"/>
-              </div>
-              <p class="btn-text"><b>Sign in with email</b></p>
-      
-            </div>
-          </form>
+        
+        
+          </div>
+        <div id="signInBtns">
           
-        </div>
+            <div class="upAndDown">
+              <form class="upAndDown">
+                <input class="input" type="input" id="emailSignIn" placeholder="Email" class="">
+                <input class="input" type="password" id="passwordSignIn" autocomplete="on" placeholder="Password" class="">
+                <div onclick="resetPassword()">Forgot password?</div>
+                <div class="email-btn"id="email-btn" onclick="emailBtnPressed(true)">
+                  <div class="email-icon-wrapper">
+                    <img class="email-icon" src="assets/email.png"/>
+                  </div>
+                  <p class="btn-text"><b>Sign in with email</b></p>
         
+                </div>
+                <h4>or</h4>
+                <div>
+                    <div class="google-btn" id="google-btn" onclick="signInGoogle()">
+                    <div class="google-icon-wrapper">
+                      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                    </div>
+                    <p class="btn-text"><b>Sign in with google</b></p>
+                </div>
+              </form>
+              
+            </div>
+            
+
+        </div>
+         
+       
+  
       
       
+  
       
-      
-      
+      </div>
+    
+
     </div>
   
 </body>

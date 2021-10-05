@@ -169,15 +169,12 @@ h2 h3 {
 }
 #box > div > p {
   margin-top: auto;
- 
+  
 }
 .word {
   display: inline-flex;
 }
-img {
-  height: 24px;
-  width: 24px;
-}
+
 .pageStyles {
   display:flex;
  
@@ -489,7 +486,7 @@ section{
   padding-right:25vw;
   padding-bottom: 0;
   margin-bottom: 5vh;
-  box-shadow: 1px 1px black;
+  box-shadow: 0 0 3px #ccc;
 
   border-radius: 5px;
 }
@@ -550,6 +547,5 @@ section{
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
   right: 0px; 
 }
-
 
 
