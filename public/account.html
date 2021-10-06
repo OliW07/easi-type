@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel='stylesheet' type="text/css" href="styles/account.css"/>
+    <link rel='stylesheet' type="text/css" href="styles/root.css"/>
+    
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <script src="scripts/account.js"></script>
+    <title>Account - Easi-type</title>
+</head>
+<body onload="reColourEverything();">
+    <div id="Page">
+        <div onclick=" window.location.href='./';"id="signInX" class="pageX">X</div>
+        <div class="options">
+            
+            <h1> My Account</h1>
+            <br>
+            <br>
+            <br>
+            <div class="mainInfo">
+                <img src='assets/person.png' id="profilePic">
+                <div class="nameEmail">
+                    <p id="name"class="name">Oliver White</p>
+                    <p id="email"class="email">olivejwhite07@gmail.com</p>
+                </div>
+            </div>
+            
+            <br>
+            <br>
+            <br>
+            <div class="btnCont">
+                <p class="btnTxt">Password </p> <button class="btn" onclick="changePassword();">Reset Password</button>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="deleteAccount">
+                <p onclick="signOutUser()"class="deleteTxt">Sign out</p>
+                <div class="line"></div>
+                <p onclick="deleteAccountConfirm()"class="deleteTxt">Delete Account </p>
+            </div>
+        </div>
+        
+        
+
+
+    
+    </div>
+    <script type="module" src="scripts/module.js"></script>
+</body>
+</html>

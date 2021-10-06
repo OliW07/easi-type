@@ -11,10 +11,15 @@ var defaultPallet = {
   };
 var theme = defaultPallet;
 let signIn = true;
-function alertMessage(message,color="red"){
-    document.getElementById('alertBox').style.display = 'block';
-    document.getElementById('alertBox').style.backgroundColor = color;
-    document.getElementById('alertMessage').innerText = message;
+function alertMessage(message, color = "red",confirm=false) {
+    document.getElementById("alertBox").style.display = "block";
+    document.getElementById("alertBox").style.backgroundColor = color;
+    document.getElementById("alertMessage").innerText = message;
+    if(confirm){
+      document.getElementById("confimTick").style.display="block";
+    }else{
+      document.getElementById("confimTick").style.display="none";
+    }
 }
 function toggleSignIn(el){
     let login = document.getElementById('login');
@@ -60,7 +65,6 @@ function reColourEverything(){
     r.style.setProperty('--bodyColor', theme.text);
     r.style.setProperty('--footerBg', theme.footerBg);
     r.style.setProperty('--sectionBg', theme.sectionBg);
-   
 
  
 }
@@ -72,7 +76,10 @@ document.getElementById('signInX').addEventListener('click', ()=>{
     window.location.replace("./");
 })
 
-document.addEventListener("DOMContentLoaded", reColourEverything);
+
+window.addEventListener('load', ()=>{
+    reColourEverything();
+})
 
 
 

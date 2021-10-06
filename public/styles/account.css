@@ -1,0 +1,91 @@
+
+:root {
+    --liColor:#778da9;
+    --timerBg:#D7B19D;
+    --h3Color: #415a77;
+    --sectionBg: #e7e7e7;
+   
+  
+    
+}
+  
+
+    
+    
+#profilePic{
+    width:10vh;
+    height:10vh;
+    border-radius: 50%;
+}
+.mainInfo{
+    display:flex;
+    flex-direction: row;
+
+}
+.nameEmail{
+    margin-left:5px;
+   
+    display:flex;
+    flex-direction:column;
+}
+.name{
+    font-size:x-large;
+    margin:1vh;
+}
+.email{
+   
+    margin:1vh;
+}
+#signInX{
+
+    width:100%;
+    justify-content: flex-end;
+}
+.btnCont{
+    display:flex;
+    flex-direction:row;
+   
+}
+.options{
+    width:20vw;
+    height:100vh;
+}
+.btn{
+    height:5vh;
+    display: flex;
+    align-self: center;
+    margin-left:2vh;
+}
+.deleteAccount{
+    width:fit-content;
+    
+}
+.deleteTxt{
+    cursor: pointer;
+    color:rgb(201, 3, 3);
+    margin-top:5px;
+    margin-bottom:5px;
+    
+}
+.deleteTxt:hover{
+    color:rgb(150, 2, 2);
+}
+.deleteTxt:first-child{
+    cursor: pointer;
+    color:rgb(0, 0, 0);
+    margin-top:5px;
+    margin-bottom:5px;
+    
+}
+.deleteTxt:first-child:hover{
+    cursor: pointer;
+    color:rgb(51, 51, 51);
+    margin-top:5px;
+    margin-bottom:5px;
+    
+}
+
+.line{
+    width:100%;
+    border: 1px solid black;
+}

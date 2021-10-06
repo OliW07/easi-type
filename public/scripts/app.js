@@ -91,6 +91,11 @@ var defaultPallet = {
 };
 var theme = defaultPallet;
 
+function rgbToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
 function fetchList() {
   return fetch("wordList.json")
     .then((response) => response.json())
@@ -231,6 +236,7 @@ function skipCurrentWord() {
   for (c of children) {
     underLineEl(c);
   }
+  document.getElementById("word" + currentWord).lastChild.style.textDecoration = 'none';
 
   let oldChar = currentChar;
   currentWord++;
@@ -238,7 +244,12 @@ function skipCurrentWord() {
   currentChar = curWordEl().firstElementChild.id.substring(4);
   let newChar = currentChar;
   let difference = newChar - oldChar;
-  textTyped += text.slice(parseInt(oldChar) - 1, parseInt(newChar) - 1);
+  let remainingChar = text.split(' ')[0].length + 1
+  
+
+  textTyped += text.slice(0,remainingChar)
+
+
   text = text.slice(difference);
 
   addBgEl(document.getElementById(currentCharId(currentChar)));
@@ -506,13 +517,66 @@ function addBgEl(el) {
 function rmBgEl(el) {
   el.style.backgroundColor = theme.bodyBg;
 }
+function previousSkip(){
+  if(currentWord == 1){
+    return 0;
+  }
+  
+  //last char of previous word, so we don't get the space
+  let lastCharNotSpace = curWordEl().previousElementSibling.lastChild.previousElementSibling;
+  
+  //checks if the char is underlined
+  if(lastCharNotSpace.style.textDecoration == "underline"){
 
+    let el = curWordEl().previousElementSibling
+    let count = 0;
+
+    //-1 for the space
+    for (let i = 0; i < el.children.length-1; i++) {
+      let color = window.getComputedStyle(el.children[i]).getPropertyValue('color');
+      if(color=='rgb(65, 35, 25)'){
+        count++;
+      }
+    }
+
+
+
+    
+    
+
+   return count;
+    
+  }
+  
+  return 0;
+}
 function deleteChar() {
   changeBackColor = document.getElementById(
     "char" + (currentChar - 1).toString()
   );
 
   let errorChar = false;
+  let skippedChar = previousSkip();
+
+  if(skippedChar > 0){
+    let backgroundElRm = currentCharId();
+
+    removeChar = skippedChar + 1; //for the space;
+    text = textTyped.slice(-removeChar) + text;// adds to start
+    textTyped = textTyped.slice(0,-removeChar); // removes the skippedChars
+
+    currentChar = (parseInt(currentChar)-removeChar).toString();
+    currentWord--;
+    rmBgEl(document.getElementById(backgroundElRm));
+    addBgEl(document.getElementById(currentCharId()))
+
+    for (let i = 0; i < curWordEl().children.length-1; i++) {
+      curWordEl().children[i].style.textDecoration = 'none';
+    }
+
+
+    return false;
+  }
   if (currentChar != 1) {
     typedNum--;
   }
@@ -939,11 +1003,22 @@ function togglePunc(){
   
   refreshWords();
 }
-function alertMessage(message, color = "red") {
+function alertMessage(message, color = "red",confirm=false) {
   document.getElementById("alertBox").style.display = "block";
   document.getElementById("alertBox").style.backgroundColor = color;
   document.getElementById("alertMessage").innerText = message;
+  if(confirm){
+    document.getElementById("confimTick").style.display="block";
+  }else{
+    document.getElementById("confimTick").style.display="none";
+  }
 }
+
+
+
+
+
+
 var tabDown = false;
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 8) {
@@ -999,30 +1074,13 @@ contactBtn.addEventListener("click", () => {
 });
 
 loginBtn.addEventListener("click", () => {
-  debugger;
+
   exPage = false;
   sliderBool = false;
   slider.style.visibility = "hidden";
   if(isSignedIn()){
     if (!timerStarted && !exPage) {
-      document.getElementById("profilePageX").style.display = "flex";
-      exPage = true;
-
-      accountPage.style.left = "0px";
-      accountPage.style.display = "flex"
-
-      settingsPage.style.display = "none"
-
-      contactBtn.style.display="none";
-      settingsBtn.style.display="none";
-      accountBtn.style.display="none";
-      
-  
-
-      
-      sliderBool = false;
-      slider.style.visibility = "hidden";
-      blurEl(accountPage);
+      window.location.href ="account.html";
     }
   }else{
     signInPage();

@@ -10,7 +10,7 @@
     <link rel='stylesheet' type="text/css" href="styles/login.css"/>
     <link rel='stylesheet' type="text/css" href="styles/root.css"/>
     
-
+    <meta name="description" content="Login or sign up with Easi-type, to enhance your typing experience, and save progress.">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
     <script type="module" src="scripts/module.js"></script>
     
@@ -18,12 +18,15 @@
 </head>
 <body>
   <div class="alert"id="alertBox">
-    <span id="closebtn" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <span onclick="this.parentElement.style.display = 'none'"id="closebtn"class="closebtn">&#10008;</span>
+    <span id="confimTick"class="closebtn">&#10004;</span>
+    
+    
     <div id='alertMessage'></div>
   </div>
     <div id="Page">
    
-      <div id="signInX" class="pageX">X</div>
+      <div id="signInX" onclick="window.location.href='/.'"class="pageX">X</div>
       <div class="content">
         <div class="loginSignup"><h1 onclick="toggleSignIn('login')"id="login"class="loginSignupToggle">Sign in</h1><h1 onclick="toggleSignIn('signup')"id="signup"class="">Sign up</h1></div>
         <div id="signUpBtns">

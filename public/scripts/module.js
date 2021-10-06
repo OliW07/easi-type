@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
-import { getAuth, signOut, updateProfile,sendEmailVerification,sendPasswordResetEmail, signInWithEmailAndPassword, onAuthStateChanged,createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { getAuth, signOut, updateProfile,sendEmailVerification,sendPasswordResetEmail, signInWithEmailAndPassword, onAuthStateChanged,createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, deleteUser } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 
 
 
@@ -54,15 +54,15 @@ async function createNewUser(email,password) {
   
 }
 function resetPassword(){
-  let email = prompt("What is your regestigered email?")
-  sendPasswordResetEmail(auth, email)
+  
+  sendPasswordResetEmail(auth, sessionStorage.email)
   .then(() => {
-    // Password reset email sent!
-    // ..
+    
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+  
     // ..
   });
 }
@@ -91,6 +91,7 @@ function signInUser(email,password) {
       resolve("Error ]" + errorMessage);
     });
   });
+  
 }
 
 function updateInfo(userName,url="assets/person.png"){
@@ -115,7 +116,7 @@ async function emailBtnPressed(signIn){
       window.user=user;
       
       setSessionUserData();
-      window.location.href = "/."
+      window.location.href = "./account.html";
     }else if(waiting.slice(0,5) == 'Error'){
       let mess = waiting.split(']')[1];
       console.log(mess)
@@ -136,7 +137,9 @@ async function emailBtnPressed(signIn){
       .then(() => {
         
         console.log('sent')
-        alertMessage('We just send you a cofimation email, please click on the click to verify your account','green','/.')
+        window.location.href="/.";
+        alertMessage('We just send you a cofimation email, please click on the link to verify your account','green','false')
+        
         
       });
       
@@ -154,45 +157,54 @@ function signOutUser(){
   signOut(auth);
   sessionStorage.displayName = undefined;
   sessionStorage.email = undefined;
-  sessionStorage.photoURL = undefined;
+  sessionStorage.photoURL = 'assets/person.png';
   sessionStorage.emailVerified = undefined;
+  window.location.href="/.";
   
 }
 function checkErrorMessage(message){
   switch(message){
     case 'emailMissing':
-      alertMessage("Please make sure you're entering a valid email address, and your password is longer than six characters.",'red');
+      alertMessage("Please make sure you're entering a valid email address, and your password is longer than six characters.",'red',false);
       break;
     case "Firebase: Error (auth/invalid-email).":
-      alertMessage("Please enter a valid email address",'red');
+      alertMessage("Please enter a valid email address",'red',false);
       break;
     case "Firebase: Error (auth/email-already-in-use).":
-      alertMessage("This email has already been regestigered with easi-type.com, try signing in again",'orange');
+      alertMessage("This email has already been regestigered with easi-type.com, try signing in again",'orange',false);
       break;
     case "Firebase: Error (auth/wrong-password).":
-      alertMessage("Incorrect email/password, try again",'orange');
+      alertMessage("Incorrect email/password, try again",'orange',false);
       break;
     case "Firebase: Error (auth/user-not-found).":
-      alertMessage("There is no account associated with this email address, try creating a new account","orange");
+      alertMessage("There is no account associated with this email address, try creating a new account","orange",false);
       break;
     case "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).":
-        alertMessage("This account is temporarily disabled due to many failed login attempts, you can try again later, or reset your password","red");
+        alertMessage("This account is temporarily disabled due to many failed login attempts, you can try again later, or reset your password","red",false);
         break;
     default:
-       alertMessage("A problem occured thank you for understanding, try again later",'orange');
+       alertMessage("A problem occured thank you for understanding, try again later",'orange',false);
        break;
    
   }
 }
-function alertMessage(message,color="red",redirect='false'){
-  document.getElementById('alertBox').style.display = 'block';
-  document.getElementById('alertBox').style.backgroundColor = color;
-  document.getElementById('alertMessage').innerText = message;
-  if(redirect !== 'false'){
-    document.getElementById('closebtn').addEventListener('click', () => {
-      window.location = redirect;
-    })
+function alertMessage(message, color = "red",confirm=false) {
+  document.getElementById("alertBox").style.display = "block";
+  document.getElementById("alertBox").style.backgroundColor = color;
+  document.getElementById("alertMessage").innerText = message;
+  if(confirm){
+    document.getElementById("confimTick").style.display="block";
+  }else{
+    document.getElementById("confimTick").style.display="none";
   }
+}
+function deleteAccount(){
+  
+  deleteUser(auth.currentUser).then(() => {
+    window.location.href = "/."
+  }).catch((error) => {
+    console.log(error.message);
+  });
 }
 function signInGoogle(){
   
@@ -205,7 +217,7 @@ function signInGoogle(){
     user = result.user;
     window.user = user;
     setSessionUserData();
-    window.location.href ="/."
+    window.location.href ="./account.html"
     // ...
   }).catch((error) => {
     // Handle Errors here.
@@ -224,7 +236,11 @@ function setSessionUserData(){
   if(user !== null){
     sessionStorage.displayName = user.displayName;
     sessionStorage.email = user.email;
-    sessionStorage.photoURL = user.photoURL;
+    if (sessionStorage.photoURL == 'null'){
+      sessionStorage.photoURL = 'assets/person.png';
+    } else{
+      sessionStorage.photoURL = user.photoURL;
+    }
     sessionStorage.emailVerified = user.emailVerified;
   
     // The user's ID, unique to the Firebase project. Do NOT use
@@ -277,3 +293,4 @@ window.emailBtnPressed = emailBtnPressed;
 window.user = user;
 window.resetPassword = resetPassword;
 window.signOutUser = signOutUser;
+window.deleteAccount = deleteAccount;
