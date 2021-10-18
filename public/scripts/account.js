@@ -1,26 +1,15 @@
 
-var defaultPallet1 = {
-    text: "#14279B",
-    error: "#9E2A2B",
-    correct: "#946e61",
-    highlight: "rgb(244 211 191)",
-    navHighlight: "rgb(244 211 191)",
-    bodyBg: "#5C7AEA",
-    timerBg: "#fff",
-    sectionBg: "#a1b3f5",
-    sectionColor: "#0a0b44",
-  };
-  var defaultPallet = {
-    text: "#412319",
-    error: "#b54e4f",
-    correct: "#9cd12b",
-    highlight: "rgb(244 211 191)",
-    navHighlight: "rgb(244 211 191)",
-    bodyBg: "#F1FFE7",
-    timerBg: "#D7B19D",
-    sectionBg: "#e5f3db",
-    sectionColor: "#412319",
-  };
+var defaultPallet = {
+  text: "#616161",
+  error: "#7e2a33",
+  correct: "white",
+  highlight: "rgb(247, 223, 203)",
+  navHighlight: "rgb(247, 223, 203)",
+  bodyBg: "#313131",
+  timerBg: "#D7B19D",
+  sectionBg: "#e5f3db",
+  sectionColor: "#412319",
+};
   var theme = defaultPallet;
 
 
@@ -66,6 +55,10 @@ function changePassword(){
   } 
 }
 window.addEventListener("load", ()=>{
+  if (sessionStorage.displayName == undefined || sessionStorage.displayName == "undefined") {
+    window.location.href="/login.html"
+  }
+  
   document.getElementById('profilePic').src=sessionStorage.photoURL;
   
   document.getElementById('name').innerText=sessionStorage.displayName;

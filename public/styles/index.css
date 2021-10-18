@@ -174,7 +174,13 @@ h2 h3 {
 .word {
   display: inline-flex;
 }
-
+.logo{
+  display: block;
+  width:fit-content;
+  height:fit-content;
+  opacity: 0.4;
+  margin-left:-10vh;
+}
 .pageStyles {
   display:flex;
  
@@ -349,7 +355,7 @@ and (orientation: portrait) {
     display:none ;
   }
   .logo{
-    display:block;
+    display:none;
   }
   #container,#boxNav,nav,.nav-links,#refreshBox{
     width:100% ;
@@ -399,7 +405,7 @@ and (orientation: portrait) {
       display:none ;
     }
     .logo{
-      display:block;
+      display:none;
     }
     #container,nav,#refreshBox{
       width:100% ;

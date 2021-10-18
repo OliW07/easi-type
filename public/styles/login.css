@@ -4,30 +4,48 @@
   --timerBg:#D7B19D;
   --h3Color: #415a77;
   --sectionBg: #e7e7e7;
+  
 
 
 
 
 }
-
+html{
+  height: 100%;
+}
+body{
+  box-shadow: inset 0 0 200px 10px #4b4b4b;
+  background-color: var(--bodyColor);
+  min-height: 100%; 
+}
 
 #signInBtn{
-    display:none;
+    
     cursor: pointer;
     flex-direction: row;
     justify-content: flex-end;
     padding:10px;
     color: #778da9;
     align-self: end;
+    
   }
-  #signInPage{
+  .loginPage{
   
-    margin-top:40px;
-    margin-bottom: 40px;
-    padding:40px;
-    width: 40%;
+    
     height: 100%;
-    background-color:  #8aa8cf;
+   
+    z-index:1;
+    display:flex;
+    border-radius:2%;
+    flex-direction: column;
+    
+    align-self: center;
+  }
+  #signinPage{
+  
+    
+    height: 100%;
+    
     z-index:1;
     display:flex;
     border-radius:2%;
@@ -46,42 +64,58 @@
     flex-direction:column;
     align-items:center;
     height:100%;
-    display:none;
+    width:100%;
+    
+  }
+  a{
+    color:#0645AD;
+    cursor: pointer;
+  }
+  a:hover{
+    color:#0B0080;
   }
   .google-btn {
-    margin:20px;
+
     cursor: pointer;
-    width: 184px;
-    height: 42px;
+    width: 100%;
+    height: 5vh;
     background-color: #4285f4;
     border-radius: 2px;
     box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+    cursor: pointer;
+    
   }
   .google-icon-wrapper {
     position: absolute;
-      margin-top: 1px;
-      margin-left: 1px;
-      width: 40px;
-      height: 40px;
+      
+      width: 5vh;
+      height: 5vh;
       border-radius: 2px;
       background-color: #fff;
+      margin-right: auto;
   }
   .google-icon {
-    position: absolute;
+    
     margin-top: 11px;
     margin-left: 11px;
     width: 18px;
     height: 18px;
+    margin-right: auto;
   }
 
   .btn-text {
-    float: right;
-    margin: 11px 11px 0 0;
+    display: flex;
     color: #fff;
     font-size: 14px;
     letter-spacing: 0.2px;
     font-family: "Sans-serif";
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0;
+    margin-block: 0;
     
+    height: 100%;
+    align-items: center;
    
     
   }
@@ -91,13 +125,14 @@
     
   }
   .email-btn {
-    margin:20px;
+    
     cursor: pointer;
-    width: 184px;
-    height: 42px;
+    width: 100%;
+    height: 5vh;
     background-color: #f5817d;
     border-radius: 2px;
     box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+    margin-top:10px;
   }
   .email-icon-wrapper {
     position: absolute;
@@ -114,18 +149,9 @@
     margin-left: 11px;
     width: 18px;
     height: 18px;
-  }
-  .btn-text {
-    float: right;
-    margin: 11px 11px 0 0;
-    color: #fff;
-    font-size: 14px;
-    letter-spacing: 0.2px;
-    font-family: "Sans-serif";
-    
-   
     
   }
+  
   .email-btn:hover{
     
     box-shadow: 0 0 6px #f5817d;
@@ -148,19 +174,24 @@
     flex-direction:column;
     height: 100%;
     align-items: center;
-    width:100%;
+    width:80%;
+    
+  }
+  .signupForm{
+    padding-left: 16.5%;
+    padding-right:16.5%;
   }
   .input{
     width: 100%;
-    height: 5%;
-    margin:5px;
+    height: 5vh;
+    box-sizing:border-box;
     align-self: center;
+    margin-top:5px;
   }
   .loginSignup{
-    cursor: pointer;
-    display: flex;
-    flex-direction:row;
-    justify-content: space-between;
+    
+    display:flex;
+    justify-content: center;
   }
   
   
@@ -181,17 +212,34 @@
   }
   form{
     height:100%;
-    margin-top: 50px;
+    
+    margin-top: 2vh;
+  }
+  .forgot{
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    font-size:small;
+  }
+  .forgot:hover{
+    color:black ;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    font-size:small;
+  }
+  .or{
+    display: flex;
+    justify-content: center;
   }
   .content{
     background-color:var(--sectionBg);
     color:var(--sectionColor);
-    width:30vw;
+    width:40vw;
     height:80vh;
     border-radius:20px;
     padding-top:5vh;
-    padding-left:15vw;
-    padding-right:15vw;
+   
     box-shadow: 0 0 3px rgb(0, 0, 0);
   }
   #Page{
@@ -200,3 +248,26 @@
     align-items: center;
     
   }
+
+
+
+  /* android */
+@media screen 
+and (device-width: 360px) 
+and (device-height: 640px) 
+and (orientation: portrait) {
+ .content{
+   width:80vh;
+ }
+  
+}
+/* iphones */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (orientation: portrait) {
+    
+  .content{
+    width:80vw;
+ }
+}

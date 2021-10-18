@@ -79,12 +79,12 @@ var defaultPallet1 = {
   sectionColor: "#0a0b44",
 };
 var defaultPallet = {
-  text: "#412319",
-  error: "#b54e4f",
-  correct: "#9cd12b",
-  highlight: "rgb(244 211 191)",
-  navHighlight: "rgb(244 211 191)",
-  bodyBg: "#F1FFE7",
+  text: "#616161",
+  error: "#7e2a33",
+  correct: "white",
+  highlight: "rgb(247, 223, 203)",
+  navHighlight: "rgb(247, 223, 203)",
+  bodyBg: "#313131",
   timerBg: "#D7B19D",
   sectionBg: "#e5f3db",
   sectionColor: "#412319",
@@ -518,6 +518,7 @@ function rmBgEl(el) {
   el.style.backgroundColor = theme.bodyBg;
 }
 function previousSkip(){
+ 
   if(currentWord == 1){
     return 0;
   }
@@ -534,7 +535,7 @@ function previousSkip(){
     //-1 for the space
     for (let i = 0; i < el.children.length-1; i++) {
       let color = window.getComputedStyle(el.children[i]).getPropertyValue('color');
-      if(color=='rgb(65, 35, 25)'){
+      if(color=='rgb(97, 97, 97)'){
         count++;
       }
     }
@@ -554,11 +555,18 @@ function deleteChar() {
   changeBackColor = document.getElementById(
     "char" + (currentChar - 1).toString()
   );
-
+    debugger;
   let errorChar = false;
   let skippedChar = previousSkip();
+  let isFirstChar = () => {
+    if(curWordEl().firstElementChild.id == currentCharId()){
+      return true
+    }
+    return false;
+  }
 
-  if(skippedChar > 0){
+
+  if(skippedChar > 0 && isFirstChar()){
     let backgroundElRm = currentCharId();
 
     removeChar = skippedChar + 1; //for the space;
@@ -708,7 +716,7 @@ function startTimer(sec) {
   if (timeLeft == 0) {
   } else {
     timerStarted = true;
-    timerNum.innerHTML = sec;
+    timer.innerHTML = sec;
     intervalVar = setInterval(subSec, 1000);
   }
 }
@@ -719,7 +727,7 @@ function subSec() {
     endScreen();
     timerStarted = false;
   } else {
-    timerNum.innerHTML = timerNum.innerHTML - 1;
+    timer.innerHTML = timer.innerHTML - 1;
     timeLeft--;
   }
 }
@@ -826,7 +834,7 @@ function endScreen() {
     }
   }
 
-  toggleSlider()
+  //toggleSlider()
   if (!timerStarted) {
     if (window.getComputedStyle(slider, null).visibility == "hidden") {
       slider.style.visibility = "visible";
@@ -848,7 +856,7 @@ function updateTime() {
   localStorage.time = slider.value;
   time = localStorage.time;
   timeLeft = time;
-  timerNum.innerHTML = timeLeft;
+  timer.innerHTML = timeLeft;
 }
 function settingLedColorToggle(el,color){
   
@@ -947,7 +955,7 @@ function reColourEverything() {
   let r = document.querySelector(':root');
   let rs = getComputedStyle(r);
   r.style.setProperty('--bodyBg', theme.bodyBg);
-  r.style.setProperty('--bodyColor', theme.text);
+  //r.style.setProperty('--bodyColor', theme.text);
   r.style.setProperty('--footerBg', theme.footerBg);
   r.style.setProperty('--sectionBg', theme.sectionBg);
 

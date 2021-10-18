@@ -1,10 +1,10 @@
 var defaultPallet = {
-    text: "#412319",
-    error: "#b54e4f",
-    correct: "#9cd12b",
-    highlight: "rgb(244 211 191)",
-    navHighlight: "rgb(244 211 191)",
-    bodyBg: "#F1FFE7",
+    text: "#616161",
+    error: "#7e2a33",
+    correct: "white",
+    highlight: "rgb(247, 223, 203)",
+    navHighlight: "rgb(247, 223, 203)",
+    bodyBg: "#313131",
     timerBg: "#D7B19D",
     sectionBg: "#e5f3db",
     sectionColor: "#412319",
@@ -26,21 +26,21 @@ function toggleSignIn(el){
     let signup = document.getElementById('signup');
     let signInBtns = document.getElementById('signInBtns')
     let signUpBtns = document.getElementById('signUpBtns')
+    let loginPage = document.getElementById('loginPage');
+    let signupPage = document.getElementById('signupPage');
     
-    if(signIn && el != 'login'){
+    if(el == 'signup'){
         
         signIn = false;
-        login.classList.toggle("loginSignupToggle");
-        signup.classList.toggle("loginSignupToggle");
-        signInBtns.style.display = "none";
-        signUpBtns.style.display = "flex";
+        
+        loginPage.style.display = "none";
+        signupPage.style.display = "flex";
 
-    }else if(!signIn && el == "login"){
+    }else if(el == "login"){
         signIn = true;
-        login.classList.toggle("loginSignupToggle");
-        signup.classList.toggle("loginSignupToggle");
-        signInBtns.style.display = "flex";
-        signUpBtns.style.display = "none";
+        
+        loginPage.style.display = "flex";
+        signupPage.style.display = "none";
     }
 }
 

@@ -1,6 +1,6 @@
 
 :root {
-  --bodyBg:#fee3d5;
+  --bodyBg:#007275;
   --bodyColor:#412319;
   --footerBg:#D7B19D;
 }
@@ -21,6 +21,8 @@ body {
   scroll-behavior: smooth;
   overflow:visible;
   
+  
+  
   max-width: 100%;
 }
 footer{
@@ -30,7 +32,7 @@ footer{
 }
 html {
   scroll-behavior: smooth;
-  height: 100%;
+  min-height: 100%;
   max-width: 100%;
   
 }
